@@ -6,3 +6,4 @@ pom.xml
 /target/
 resources/public/cljs/
 resources/public/js/main.js
+/targets/
