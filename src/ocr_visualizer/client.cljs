@@ -1,11 +1,8 @@
-(ns ocr-visualizer.client
-    (:require [enfocus.core :as ef]
-              [enfocus.effects :as effects]
-              [enfocus.events :as events]
-              [clojure.browser.repl :as repl])
-    (:use-macros [enfocus.macros :only [deftemplate defsnippet defaction]]))
-
-(declare add-fruit)
+(ns ocr-visualizer.client2
+  (:require [domina :as d]
+            [cljs.reader :as reader]
+            [clojure.string :as string]
+            [clojure.browser.repl :as repl]))
 
 ;;************************************************
 ;; Dev stuff
@@ -16,70 +13,150 @@
  (when dev-mode
    (repl/connect "http://localhost:9000/repl")))
 
-;;************************************************
-;; Retrieving data from dom
-;;************************************************
-
-(defn by-id [id]
-  (.getElementById js/document id))
-
-;; if from is sent one element it returns the value
-(defn get-name []
- (ef/from (by-id "yourname") (ef/get-prop :value)))
-
-;; if from is passed a set lookups it returns 
-;; a map {:fruit "apple" :quanity "10" }
-(defn get-fruit-vals []
- (ef/from js/document
-   :fruit "#fruit" (ef/get-prop :value)
-   :quanity "#quantity" (ef/get-prop :value)))
 
 
-;;************************************************
-;; snippets and templates
-;;************************************************
 
-;; we can use enlive based selects 
-;; along side string based selectors
-(defsnippet home-snip :compiled "public/index.html" [:#stage] []) 
-  
-(deftemplate welcome-temp :compiled "public/templates/welcome.html" [name]
-   "#name" (ef/content name)
-   "#time" (ef/content (.toISOString (js/Date.))))
+(defn get-errors []
+  (-> (d/by-id "errors") d/text reader/read-string))
 
-;note selectors can be vectors or bare strings
-(defsnippet fruit-snip :compiled "public/templates/welcome.html" 
-  ["tbody > *:first-child"] [fruit quantity]
-  ["tr > *:first-child"] (ef/content fruit)
-  ["tr > *:last-child"]  (ef/content quantity)) 
-   
+(defn get-left []
+  (-> (d/by-id "left") d/html))
+
+(defn get-right []
+  (-> (d/by-id "right") d/html))
+
+
+
+
+;;highlights are of the form start end color
+(def highlights-left (atom []))(ns ocr-visualizer.client
+  (:require [domina :as d]
+            [cljs.reader :as reader]
+            [clojure.string :as string]
+            [clojure.browser.repl :as repl]))
 
 ;;************************************************
-;; actions/navigation
+;; Dev stuff
 ;;************************************************
+(def dev-mode true)
 
-(defaction add-fruit [data]
-  "tbody" (ef/append (fruit-snip (:fruit data) (:quanity data))))  
+(defn repl-connect [] 
+ (when dev-mode
+   (repl/connect "http://localhost:9000/repl")))
 
-(defaction welcome []
-  "#stage" (ef/substitute (welcome-temp (get-name)))
-  "#home-btn" (ef/remove-class "active")
-  "#fruit-btn" (events/listen :click
-                              #(add-fruit (get-fruit-vals))))
 
-(defaction home []
-  "#stage" (ef/substitute (home-snip))
-  "#home-btn" (ef/add-class "active")
-  "#welcome-btn" (events/listen :click welcome))
-                
-(defaction init []
-  "#home-btn" (events/listen :click home))
-;;************************************************
-;; onload
-;;************************************************
+
+
+(defn get-errors []
+  (-> (d/by-id "errors") d/text reader/read-string))
+
+(defn get-left []
+  (-> (d/by-id "left") d/html))
+
+(defn get-right []
+  (-> (d/by-id "right") d/html))
+
+
+;;highlights are of the form start end color
+(def highlights-left (atom []))
+(def highlights-right(atom []))
+(def text-left (atom ""))
+(def text-right (atom ""))
+
+(defn highlight
+  ([text] (highlight text "blue"))
+  ([text color]
+     (str "<span style=\"background-color:" color ">" text "</span>")))
+
+(def offset 43)
+
+
+(defn highlight-text [text positions]
+  (apply str
+         (-> (reduce (fn [[pos substrings] [nstart nend color]]
+                       [nend (conj substrings (.substring text pos nstart)
+                                   (highlight (.substring text nstart nend)
+                                              color))])
+                     [0 []] positions)
+             second
+             (conj (.substring text (second (last positions)) (count text))))))
+
+(defn save-texts []
+  (reset! text-left (d/html (d/by-id "left")))
+  (reset! text-right (d/html (d/by-id "right"))))
+
+(defn fill-highlights []
+  (let [errors (reader/read-string (d/html (d/by-id "errors")))
+        insertions-left (distinct (map first (:insertions errors)))
+        insertions-right (distinct (map second (:insertions errors)))]
+    (reset! highlights-left (for [i insertions-left] [i (inc i) "blue"]))
+    (reset! highlights-right (for [i insertions-right] [(dec i) i "blue"]))))
+
+(defn show-highlights []
+  (d/set-html! (d/by-id "left") (highlight-text @text-left @highlights-left))
+  (d/set-html! (d/by-id "right") (highlight-text @text-right @highlights-right)))
 
 (set! (.-onload js/window)
       #(do
          (repl-connect)
-         (init)
-         (home)))
+         (save-texts)
+         (fill-highlights)
+         (show-highlights)))
+(def highlights-right(atom []))
+(def text-left (atom ""))
+(def text-right (atom ""))
+
+(defn highlight
+  ([text] (highlight text "blue"))
+  ([text color]
+     (str "<span style=\"background-color:" color "\">" text "</span>")))
+
+(def offset 43)
+
+
+(defn highlight-text [text positions]
+  (apply str
+         (-> (reduce (fn [[pos substrings] [nstart nend color]]
+                       [nend (conj substrings (.substring text pos nstart)
+                                   (highlight (.substring text nstart nend)
+                                              color))])
+                     [0 []] positions)
+             second
+             (conj (.substring text (second (last positions)) (count text))))))
+
+(defn save-texts []
+  (reset! text-left (d/html (d/by-id "left")))
+  (reset! text-right (d/html (d/by-id "right"))))
+
+(defn fill-highlights []
+  (let [errors (reader/read-string (d/html (d/by-id "errors")))
+        insertions-left (map first (:insertions errors))
+        insertions-right (map second (:insertions errors))
+        deletions-left (map first (:deletions errors))
+        deletions-right (map second (:deletions errors))
+        substitutions-left (map first (:substitutions errors))
+        substitutions-right (map second (:substitutions errors))
+        ]
+    (reset! highlights-left
+            (sort-by first
+                     (concat
+                      (for [i insertions-left] [(dec i) i "blue"])
+                      (for [i deletions-left] [(dec i) i "red"])
+                      (for [i substitutions-left] [(dec i) i "green"]))))
+    (reset! highlights-right
+            (sort-by first
+                     (concat
+                      (for [i insertions-right] [(dec i) i "blue"])
+                      (for [i deletions-right] [(dec i) i "red"])
+                      (for [i substitutions-right] [(dec i) i "green"]))))))
+
+(defn show-highlights []
+  (d/set-html! (d/by-id "left") (highlight-text @text-left @highlights-left))
+  (d/set-html! (d/by-id "right") (highlight-text @text-right @highlights-right)))
+
+(set! (.-onload js/window)
+      #(do
+         (repl-connect)
+         (save-texts)
+         (fill-highlights)
+         (show-highlights)))

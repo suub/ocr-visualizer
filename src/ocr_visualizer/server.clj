@@ -9,19 +9,20 @@
             [clojure.java.io :refer [file]]))
 
 
-(defn template []
-  (let [a (slurp "resources/public/ground-truth/186498 meld.txt")
-        b (slurp "resources/public/ocr-results/186498 tess.txt")
-        _ (new-matrix :ndarray 2 2)
-        _ (prn "initialized nd-array")]
-    (l/document (l/parse (file "resources/public/template.html"))
-                (l/id= "left") (l/content a)
-                (l/id= "right") (l/content b)
-                (l/id= "errors") (l/content (pr-str "hi" (edits a b))))))
+(defn index-site []
+  (let [a  (slurp "resources/public/ground-truth/186498 meld.txt") 
+        b  (slurp "resources/public/ocr-results/186498 tess.txt")
+        edits (slurp "resources/public/edits/186498 edits.txt")]
+    (l/document (l/parse (file "resources/public/indey.html"))
+                (l/id= "left") (l/content (l/unescaped a))
+                (l/id= "right") (l/content (l/unescaped b))
+                (l/id= "errors") (l/content edits))))
+
+
 
 (defroutes handler
-  (GET "/index.html" [] "<h1>Hello World</h1>")
-  (route/not-found (template) #_"<h1>Page not fojkjund</h1>"))
+  (GET "/index.html" [] (index-site))
+  (route/not-found (index-site)))
 
   
 
@@ -36,6 +37,6 @@
 ;setting up a simple resource handler for ring
 (def app (-> #'handler
              (wrap-resource "public")
-             (wrap-file-info)
+             ;(wrap-file-info)
              (wrap-index)))
   
