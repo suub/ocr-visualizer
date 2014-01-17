@@ -66,7 +66,15 @@
 (defn highlight
   ([text] (highlight text "blue"))
   ([text color]
-     (str "<span style=\"background-color:" color ">" text "</span>")))
+     (str "<span style=\"background-color:" color "\">" (if (= text "")
+                                                          "|" text) "</span>")))
+
+
+
+(defn save-texts []
+  (reset! text-left (d/html (d/by-id "left")))
+  (reset! text-right (d/html (d/by-id "right"))))
+
 
 (def offset 43)
 
@@ -85,78 +93,65 @@
   (reset! text-left (d/html (d/by-id "left")))
   (reset! text-right (d/html (d/by-id "right"))))
 
+(defn build-insertion-highlight [[_ [l r]]]
+  [[l l "green"] [r (inc r) "green"]])
+
+(defn build-deletion-highlight [[_ [l r]]]
+  [[l (inc l) "red"] [r r "red"]])
+
+(defn build-one-to-many-highlight [[_ [ls rs] [le re]]]
+  [[ls le "yellow"] [rs (inc re) "yellow"]])
+
+(defn build-many-to-one-highlight [[_ [ls rs] [le re]]]
+  [[ls (inc le) "orange"] [rs re "orange"]])
+
+(defn build-substitution-highlight [[_ [l r]]]
+  [[l (inc l) "blue"][r (inc r) "blue"]])
+
+(defn build-highlight [error]
+  (let [[a b] (first error)]
+    (cond
+     (= a 8)  (build-insertion-highlight error)
+     (= b 8)  (build-deletion-highlight error)
+     (= b 7)  (build-one-to-many-highlight error)
+     (= a 7)  (build-many-to-one-highlight error)
+     :else    (build-substitution-highlight error))))
+   
 (defn fill-highlights []
   (let [errors (reader/read-string (d/html (d/by-id "errors")))
-        insertions-left (distinct (map first (:insertions errors)))
-        insertions-right (distinct (map second (:insertions errors)))]
-    (reset! highlights-left (for [i insertions-left] [i (inc i) "blue"]))
-    (reset! highlights-right (for [i insertions-right] [(dec i) i "blue"]))))
-
+        hl (for [e errors]
+             (build-highlight e))]
+    (reset! highlights-left (distinct (map first hl)))
+    (reset! highlights-right (distinct (map second hl)))))
 (defn show-highlights []
   (d/set-html! (d/by-id "left") (highlight-text @text-left @highlights-left))
   (d/set-html! (d/by-id "right") (highlight-text @text-right @highlights-right)))
+
+
+(defn fill-table []
+  (let [errors (reader/read-string (d/html (d/by-id "errors")))
+        kinds (group-by first errors)
+        rows (for [[code positions] (sort-by (comp #(reduce + %) first) kinds)]
+               (str "<tr>"
+                    "<td>" code "</td>"
+                    "<td>" (count positions) "</td>"
+                    "<td>" positions "</td>"
+                    "<td>" (-> [code (first positions)]
+                               build-highlight
+                               first
+                               (nth 2))
+                    "</tr>"))
+        table (d/html (d/by-id "table"))]
+    (d/set-html! (d/by-id "table")
+                 (str (.substring table 0 (- (count table) 8))
+                      (apply str rows)))))
 
 (set! (.-onload js/window)
       #(do
          (repl-connect)
          (save-texts)
          (fill-highlights)
-         (show-highlights)))
-(def highlights-right(atom []))
-(def text-left (atom ""))
-(def text-right (atom ""))
-
-(defn highlight
-  ([text] (highlight text "blue"))
-  ([text color]
-     (str "<span style=\"background-color:" color "\">" text "</span>")))
-
-(def offset 43)
+         (show-highlights)
+         (fill-table)))
 
 
-(defn highlight-text [text positions]
-  (apply str
-         (-> (reduce (fn [[pos substrings] [nstart nend color]]
-                       [nend (conj substrings (.substring text pos nstart)
-                                   (highlight (.substring text nstart nend)
-                                              color))])
-                     [0 []] positions)
-             second
-             (conj (.substring text (second (last positions)) (count text))))))
-
-(defn save-texts []
-  (reset! text-left (d/html (d/by-id "left")))
-  (reset! text-right (d/html (d/by-id "right"))))
-
-(defn fill-highlights []
-  (let [errors (reader/read-string (d/html (d/by-id "errors")))
-        insertions-left (map first (:insertions errors))
-        insertions-right (map second (:insertions errors))
-        deletions-left (map first (:deletions errors))
-        deletions-right (map second (:deletions errors))
-        substitutions-left (map first (:substitutions errors))
-        substitutions-right (map second (:substitutions errors))
-        ]
-    (reset! highlights-left
-            (sort-by first
-                     (concat
-                      (for [i insertions-left] [(dec i) i "blue"])
-                      (for [i deletions-left] [(dec i) i "red"])
-                      (for [i substitutions-left] [(dec i) i "green"]))))
-    (reset! highlights-right
-            (sort-by first
-                     (concat
-                      (for [i insertions-right] [(dec i) i "blue"])
-                      (for [i deletions-right] [(dec i) i "red"])
-                      (for [i substitutions-right] [(dec i) i "green"]))))))
-
-(defn show-highlights []
-  (d/set-html! (d/by-id "left") (highlight-text @text-left @highlights-left))
-  (d/set-html! (d/by-id "right") (highlight-text @text-right @highlights-right)))
-
-(set! (.-onload js/window)
-      #(do
-         (repl-connect)
-         (save-texts)
-         (fill-highlights)
-         (show-highlights)))
