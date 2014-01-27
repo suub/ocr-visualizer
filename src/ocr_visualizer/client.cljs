@@ -29,11 +29,7 @@
 
 
 ;;highlights are of the form start end color
-(def highlights-left (atom []))(ns ocr-visualizer.client
-  (:require [domina :as d]
-            [cljs.reader :as reader]
-            [clojure.string :as string]
-            [clojure.browser.repl :as repl]))
+(def highlights-left (atom []))
 
 ;;************************************************
 ;; Dev stuff
@@ -60,8 +56,8 @@
 ;;highlights are of the form start end color
 (def highlights-left (atom []))
 (def highlights-right(atom []))
-(def text-left (atom ""))
-(def text-right (atom ""))
+(def text-left (atom []))
+(def text-right (atom []))
 
 (defn highlight
   ([text] (highlight text "blue"))
@@ -71,9 +67,9 @@
 
 
 
-(defn save-texts []
-  (reset! text-left (d/html (d/by-id "left")))
-  (reset! text-right (d/html (d/by-id "right"))))
+(defn save-texts [r]
+  (reset! text-left (map #(d/html (d/by-id (str "left-" %))) r))
+  (reset! text-right (map #(d/html (d/by-id (str "right-" %))) r)))
 
 
 (def offset 43)
@@ -89,9 +85,6 @@
              second
              (conj (.substring text (second (last positions)) (count text))))))
 
-(defn save-texts []
-  (reset! text-left (d/html (d/by-id "left")))
-  (reset! text-right (d/html (d/by-id "right"))))
 
 (defn build-insertion-highlight [[_ [l r]]]
   [[l l "green"] [r (inc r) "green"]])
@@ -117,41 +110,52 @@
      (= a 7)  (build-many-to-one-highlight error)
      :else    (build-substitution-highlight error))))
    
-(defn fill-highlights []
-  (let [errors (reader/read-string (d/html (d/by-id "errors")))
-        hl (for [e errors]
-             (build-highlight e))]
-    (reset! highlights-left (distinct (map first hl)))
-    (reset! highlights-right (distinct (map second hl)))))
-(defn show-highlights []
-  (d/set-html! (d/by-id "left") (highlight-text @text-left @highlights-left))
-  (d/set-html! (d/by-id "right") (highlight-text @text-right @highlights-right)))
+(defn fill-highlights [r]
+  (let [errors (map #(reader/read-string (d/html (d/by-id (str "errors-" %)))) r)
+        hl (map (fn [errors]
+                  (for [e errors]
+                    (build-highlight e))) errors)]
+    (reset! highlights-left (map (fn [hl] (distinct (map first hl))) hl))
+    (reset! highlights-right (map (fn [hl] (distinct (map second hl))) hl))))
+
+(defn show-highlights [r]
+  (dotimes [i (count r)]
+    (d/set-html! (d/by-id (str "left-" i)) (highlight-text (nth @text-left i)
+                                                           (nth @highlights-left i)))
+    (d/set-html! (d/by-id (str "right-" i)) (highlight-text (nth @text-right i)
+                                                            (nth @highlights-right i)))))
 
 
-(defn fill-table []
-  (let [errors (reader/read-string (d/html (d/by-id "errors")))
-        kinds (group-by first errors)
-        rows (for [[code positions] (sort-by (comp #(reduce + %) first) kinds)]
-               (str "<tr>"
-                    "<td>" code "</td>"
-                    "<td>" (count positions) "</td>"
-                    "<td>" positions "</td>"
-                    "<td>" (-> [code (first positions)]
-                               build-highlight
-                               first
-                               (nth 2))
-                    "</tr>"))
-        table (d/html (d/by-id "table"))]
-    (d/set-html! (d/by-id "table")
-                 (str (.substring table 0 (- (count table) 8))
-                      (apply str rows)))))
+(defn fill-table [r]
+  (dotimes [i (count r)]
+    (let [errors (reader/read-string (d/html (d/by-id (str "errors-" i))))
+          kinds (group-by first errors)
+          rows (for [[code positions] (sort-by (comp #(reduce + %) first) kinds)]
+                 (str "<tr>"
+                      "<td>" code "</td>"
+                      "<td>" (count positions) "</td>"
+                      "<td>" positions "</td>"
+                      "<td>" (-> [code (first positions)]
+                                 build-highlight
+                                 first
+                                 (nth 2))
+                      "</tr>"))
+          table (d/html (d/by-id (str "table-" i)))]
+      (d/set-html! (d/by-id (str "table-" i))
+                   (str (.substring table 0 (- (count table) 8))
+                        (apply str rows))))))
+
+(defn visualize-errors []
+  (let [i (range (count (d/by-class "wrap")))]
+    (save-texts i)
+    (fill-highlights i)
+    (show-highlights i)
+    (fill-table i)))
+
 
 (set! (.-onload js/window)
       #(do
          (repl-connect)
-         (save-texts)
-         (fill-highlights)
-         (show-highlights)
-         (fill-table)))
-
+         (visualize-errors)
+         ))
 

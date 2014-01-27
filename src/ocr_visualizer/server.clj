@@ -9,12 +9,33 @@
             [clojure.java.io :refer :all]))
 
 
+(defn fill-page [a b edits num]
+  (l/at (l/parse (file "resources/public/page.html"))
+        (l/id= "table") (l/id (str "table-" num))
+        (l/id= "left") (comp (l/content (l/unescaped (slurp  a)))
+                             (l/id (str "left-" num)))
+        (l/id= "right") (comp (l/content (l/unescaped (slurp  b)))
+                              (l/id (str "right-" num)))
+        (l/id= "errors") (comp (l/content (l/unescaped (slurp  edits)))
+                               (l/id (str "errors-" num)))))
+
+(defn get-files-sorted [dir]
+  (->> (file-seq (file dir))
+       rest
+       (sort-by #(.getName %))))
+
+
+
 (defn index-site []
   (let [a  (slurp "resources/public/ground-truth/186498 meld.txt") 
         b  (slurp "resources/public/ocr-results/186498 tess.txt")
         edits (slurp "resources/public/edits/186498 edits.txt")]
     (l/document (l/parse (file "resources/public/indey.html"))
-                (l/id= "page") (l/content (fill-page a b edits))
+                (l/id= "pages") (fn [_]  (map fill-page
+                                              (get-files-sorted "resources/public/ground-truth")
+                                              (get-files-sorted "resources/public/ocr-results")
+                                              (get-files-sorted "resources/public/edits")
+                                              (range))) ;(fill-page a b edits 1)
 ;                (l/id= "left") (l/content (l/unescaped a))
 ;                (l/id= "right") (l/content (l/unescaped b))
 ;                (l/id= "errors") (l/content edits)
@@ -26,7 +47,6 @@
   (GET "/index.html" [] (index-site))
   (route/not-found (index-site)))
 
-  
 
 ;handling routing "/" -> "/index.html"
 (defn wrap-index [handler]
