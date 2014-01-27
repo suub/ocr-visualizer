@@ -6,7 +6,7 @@
         [ocr-visualizer.error-count])
   (:require [compojure.route :as route]
             [me.raynes.laser :as l]
-            [clojure.java.io :refer [file]]))
+            [clojure.java.io :refer :all]))
 
 
 (defn index-site []
@@ -14,9 +14,11 @@
         b  (slurp "resources/public/ocr-results/186498 tess.txt")
         edits (slurp "resources/public/edits/186498 edits.txt")]
     (l/document (l/parse (file "resources/public/indey.html"))
-                (l/id= "left") (l/content (l/unescaped a))
-                (l/id= "right") (l/content (l/unescaped b))
-                (l/id= "errors") (l/content edits))))
+                (l/id= "page") (l/content (fill-page a b edits))
+;                (l/id= "left") (l/content (l/unescaped a))
+;                (l/id= "right") (l/content (l/unescaped b))
+;                (l/id= "errors") (l/content edits)
+                )))
 
 
 
@@ -40,3 +42,4 @@
              ;(wrap-file-info)
              (wrap-index)))
   
+
