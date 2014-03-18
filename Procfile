@@ -1,1 +1,1 @@
-web: lein ring server $PORT
+web: lein run -m ocr-visualizer.server $PORT
