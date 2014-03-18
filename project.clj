@@ -2,7 +2,7 @@
   :description "FIXME: write this!"
   :url "http://exampl.com/FIXME"
   :jvm-opts ["-Xmx3g" "-server"] 
-
+  :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [ring/ring-core "1.1.8"]
                  [ring/ring-jetty-adapter "1.1.8"]

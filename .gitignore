@@ -4,6 +4,4 @@ pom.xml
 /classes/
 .lein-deps-sum
 /target/
-resources/public/cljs/
-resources/public/js/main.js
 /targets/
