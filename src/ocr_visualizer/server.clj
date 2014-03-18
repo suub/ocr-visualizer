@@ -27,19 +27,14 @@
 
 
 (defn index-site []
-  (let [a  (slurp "resources/public/ground-truth/186498 meld.txt") 
-        b  (slurp "resources/public/ocr-results/186498 tess.txt")
-        edits (slurp "resources/public/edits/186498 edits.txt")]
-    (l/document (l/parse (file "resources/public/indey.html"))
-                (l/id= "pages") (fn [_]  (map fill-page
-                                              (get-files-sorted "resources/public/ground-truth")
-                                              (get-files-sorted "resources/public/ocr-results")
-                                              (get-files-sorted "resources/public/edits")
-                                              (range))) ;(fill-page a b edits 1)
-;                (l/id= "left") (l/content (l/unescaped a))
-;                (l/id= "right") (l/content (l/unescaped b))
-;                (l/id= "errors") (l/content edits)
-                )))
+  (l/document (l/parse (file "resources/public/indey.html"))
+              (l/id= "pages")
+              (fn [_]
+                (map fill-page
+                     (get-files-sorted "resources/public/ground-truth")
+                     (get-files-sorted "resources/public/ocr-results")
+                     (get-files-sorted "resources/public/edits")
+                     (range)))))
 
 
 
