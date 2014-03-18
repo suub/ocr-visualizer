@@ -1,12 +1,14 @@
 (ns ocr-visualizer.server
   (:use [ring.middleware.resource :only [wrap-resource]]
         [ring.middleware.file-info :only [wrap-file-info]]
+        [ring.adapter.jetty :as jetty]
         [compojure.core]
         [clojure.core.matrix]
         [ocr-visualizer.error-count])
   (:require [compojure.route :as route]
             [me.raynes.laser :as l]
-            [clojure.java.io :refer :all]))
+            [clojure.java.io :refer :all])
+  (:gen-class))
 
 
 (defn fill-page [a b edits num]
@@ -58,3 +60,6 @@
              (wrap-index)))
   
 
+
+(defn -main [port]
+  (jetty/run-jetty app {:port (Integer. port) :join? false}))
