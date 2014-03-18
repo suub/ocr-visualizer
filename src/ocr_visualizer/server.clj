@@ -56,7 +56,7 @@
 ;setting up a simple resource handler for ring
 (def app (-> #'handler
              (wrap-resource "public")
-             ;(wrap-file-info)
+             (wrap-file-info)
              (wrap-index)))
   
 
