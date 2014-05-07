@@ -8,6 +8,7 @@
                  [ring/ring-jetty-adapter "1.1.8"]
                  ;[enfocus "2.0.0-SNAPSHOT"]
                  [domina "1.0.2"]
+                 [cljs-ajax "0.2.3"]
                  [org.clojure/clojurescript "0.0-2173"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [om "0.5.0"]

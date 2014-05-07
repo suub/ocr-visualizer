@@ -42,6 +42,17 @@
 
 (defroutes handler
   (GET "/index.html" [] (index-site))
+  (GET "/page-list" []
+       (pr-str (map (memfn getName)
+                    (get-files-sorted "resources/public/edits"))))
+  (GET "/get-site/:id" [id]
+       (let [id (Integer/parseInt id)
+             ocr (nth (get-files-sorted "resources/public/ocr-results") id)
+             gt (nth (get-files-sorted "resources/public/ground-truth") id)
+             error-codes (nth (get-files-sorted "resources/public/edits") id)]
+         (pr-str {:left (slurp gt)
+                  :right (slurp ocr)
+                  :error-codes (read-string (slurp error-codes))})))
   (route/not-found (index-site)))
 
 
