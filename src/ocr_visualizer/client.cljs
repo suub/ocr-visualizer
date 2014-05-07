@@ -1,15 +1,21 @@
 (ns ocr-visualizer.client2
   (:require [domina :as d]
             [cljs.reader :as reader]
+            [om.core :as om :include-macros true]
+            [om.dom :as dom :include-macros true]
             [clojure.string :as string]
             [clojure.browser.repl :as repl]))
 
 ;;************************************************
 ;; Dev stuff
 ;;************************************************
+
+(enable-console-print!)
+
+
 (def dev-mode true)
 
-(defn repl-connect [] 
+(defn repl-connect []
  (when dev-mode
    (repl/connect "http://localhost:9000/repl")))
 
@@ -36,7 +42,7 @@
 ;;************************************************
 (def dev-mode true)
 
-(defn repl-connect [] 
+(defn repl-connect []
  (when dev-mode
    (repl/connect "http://localhost:9000/repl")))
 
@@ -74,6 +80,108 @@
 
 (def offset 43)
 
+(defn highlight-text [text positions]
+  (apply str
+         (-> (reduce (fn [[pos substrings] [nstart nend color]]
+                       [nend (conj substrings (.substring text pos nstart)
+                                   (highlight (.substring text nstart nend)
+                                              color))])
+                     [0 []] positions)
+             second
+             (conj (.substring text (second (last positions)) (count text))))))
+
+
+(defn build-insertion-highlight [[_ [l r] :as error]]
+  [{:type :insertion
+    :error error
+    :position [l l "green"]}
+   {:type :insertion
+    :error error
+    :position [r (inc r) "green"]}])
+
+(defn build-deletion-highlight [[_ [l r] :as error]]
+  [{:type :deletion
+    :error error
+    :position [l (inc l) "red"]}
+   {:type :deletion
+    :error error
+    :position [r r "red"]}])
+
+
+(defn build-one-to-many-highlight [[_ [ls rs] [le re] :as error]]
+  [{:type :one-to-many
+   :error error
+   :position [ls le "yellow"]}
+   {:type :one-to-many
+    :error error
+    :position [rs (inc re) "yellow"]}])
+
+(defn build-many-to-one-highlight [[_ [ls rs] [le re] :as error]]
+  [{:type :many-to-one
+   :error error
+   :position [ls (inc le) "orange"]}
+   {:type :many-to-one
+    :error error
+    :position [rs re "orange"]}])
+
+(defn build-substitution-highlight [[_ [l r] :as error]]
+  [{:type :substitution
+   :error error
+   :position [l (inc l) "blue"]}
+   {:type :substitution
+    :error error
+    :position [r (inc r) "blue"]}])
+
+(defmulti get-position (fn [a b] a))
+
+(defmethod get-position :substitution [_ [_ [l r]]]
+  [[l (inc l)] [r (inc r)]])
+
+(defmethod get-position :many-to-one [_ [_ [ls rs] [le re]]]
+  [[ls (inc le)] [rs re]])
+
+(defmethod get-position :one-to-many [_ [_ [ls rs] [le re]]]
+  [[ls le] [rs (inc re)]])
+
+(defmethod get-position :insertion [_ [_ [l r]]]
+  [[l l] [r (inc r)]])
+
+(defmethod get-position :deletion [_ [_ [l r]]]
+  [[l (inc l)] [r r]])
+
+
+(def empty-sign "|")
+
+(defn get-text [[start end] text]
+  (prn "get-text " start end text)
+  (let [t (.substring text start end)]
+    (if-not (= t "")
+      t
+      empty-sign)))
+
+(defn make-highlight [error type a b page-index]
+  (prn "make-highlight " a b)
+  (let [positionlr (get-position type error)
+        textlr (mapv get-text positionlr [a b])
+        color (get {:substitution "blue" :insertion "green" :deletion "red"
+                    :one-to-many "yellow" :many-to-one "orange"} type)]
+    (mapv (fn [pos text lr]
+            {:type type
+             :position pos
+             :color color
+             :text text
+             :error error
+             :id (str page-index "-" error "-" lr)}) positionlr textlr ["l" "r"])))
+
+(defn build-highlight [error texta textb page-index]
+  (let [[a b] (first error)
+        type (cond
+               (= a 8)  :insertion
+               (= b 8)  :deletion
+               (= b 7)  :one-to-many
+               (= a 7)  :many-to-one
+               :else    :substitution)]
+    (make-highlight error type texta textb page-index)))
 
 (defn highlight-text [text positions]
   (apply str
@@ -86,35 +194,25 @@
              (conj (.substring text (second (last positions)) (count text))))))
 
 
-(defn build-insertion-highlight [[_ [l r]]]
-  [[l l "green"] [r (inc r) "green"]])
+(defn build-highlights [errors a b page-index]
+  (prn "lights " errors a b)
+  (as->
+    (reduce (fn [[posl hls-left posr hls-right] error]
+              (let [[{[ls le] :position :as hl-l} {[rs re] :position :as hl-r}]
+                     (build-highlight error a b page-index)
+                    _ (prn "bhlths " ls le rs re error a b)]
+                [le (conj hls-left (.substring a posl ls) hl-l)
+                 re (conj hls-right (.substring b posr rs) hl-r)])) [0 [] 0 []] errors) x
+     (let [[le hls re hlr] x]
+       [(conj hls (.substring a le (count a))) (conj hlr (.substring b re (count b)))])))
 
-(defn build-deletion-highlight [[_ [l r]]]
-  [[l (inc l) "red"] [r r "red"]])
 
-(defn build-one-to-many-highlight [[_ [ls rs] [le re]]]
-  [[ls le "yellow"] [rs (inc re) "yellow"]])
 
-(defn build-many-to-one-highlight [[_ [ls rs] [le re]]]
-  [[ls (inc le) "orange"] [rs re "orange"]])
-
-(defn build-substitution-highlight [[_ [l r]]]
-  [[l (inc l) "blue"][r (inc r) "blue"]])
-
-(defn build-highlight [error]
-  (let [[a b] (first error)]
-    (cond
-     (= a 8)  (build-insertion-highlight error)
-     (= b 8)  (build-deletion-highlight error)
-     (= b 7)  (build-one-to-many-highlight error)
-     (= a 7)  (build-many-to-one-highlight error)
-     :else    (build-substitution-highlight error))))
-   
 (defn fill-highlights [r]
   (let [errors (map #(reader/read-string (d/html (d/by-id (str "errors-" %)))) r)
         hl (map (fn [errors]
                   (for [e errors]
-                    (build-highlight e))) errors)]
+                    (light e))) errors)]
     (reset! highlights-left (map (fn [hl] (distinct (map first hl))) hl))
     (reset! highlights-right (map (fn [hl] (distinct (map second hl))) hl))))
 
@@ -136,7 +234,7 @@
                       "<td>" (count positions) "</td>"
                       "<td>" positions "</td>"
                       "<td>" (-> [code (first positions)]
-                                 build-highlight
+                                 light
                                  first
                                  (nth 2))
                       "</tr>"))
@@ -152,10 +250,103 @@
     (show-highlights i)
     (fill-table i)))
 
+(defn compute-highlights [left right error-codes]
+  (let [highlights (map light error-codes)
+        left-hl (map first highlights)
+        right-hl (map second highlights)]))
+
+
+(def app-state (atom {:text "Hello world!"
+                      :pages [{:left "ab" :right "bb" :error-codes '([[1 1] [0 0]])}
+                              {:left "439\nalljährlich wurde eine Festrede zu Ehren Kant's gehalten. Rosenkranz liebte es,\njunge Talente um sich zu sammeln; damals wurde es Sitte, sich lyrisch gehn zu\nlassen, zuerst in sentimentalen Trinkliedern, doch spielte bald die Freiheit im All¬\ngemeinen und der aufgeklärte Patriotismus hinein, und es fehlte weder die Heinesche\nZerrissenheit noch die Grün'sche Reflexionspoesie. Die Mehrzahl der Professoren\nhielt auf rationalistische Auffassung der Geschichte, des Rechts, der Theologie; die\npietistisch gesinnten jungen Theologen kamelisirten und kamen im Studentenleben nicht\nviel in Betracht. Lobeck kämpfte in seinem philologischen Seminar mit Erfolg\ngegen alle romantischen Einfälle, die seiner Wissenschaft zu nahe traten; er galt\nals Republikaner, da er ohnehin mehr in Rom und Athen, als in Königsberg\nlebte. Schubert, Voigt, Drumann waren entschieden Preußisch gesinnt; Schu¬\nbert stellte mit einem diplomatisch feinen Lächeln die Spießbürgerlichkeit der alten\nRepubliken dem complicirten modernen Staatsleben gegenüber ins Licht; er liebte\nes, mit Personen von Stande umzugehn und ironisirte bei seinen Schülern ein\netwa hervortretendes jugendliches Interesse an der französischen Revolution, aber\ner war dabei aufgeklärt und gegen allen Obscurantismus in der Kirche wie im\nStaate. Mit den staatsökonomischen Kollegien richtete er nicht viel aus, man\nlernte ebendie Hefte, soviel zum Examen nöthig war und dachte conservativ ge¬\nnug, sich am Gegebenen genügen zu lassen. Voigt stand mit dem Oberpräsiden¬\nten in näherer Verbindung; er war schon seiner amtlichen Beschäftigung nach,\nseinen archivarischen Arbeiten nämlich, Royalist; Drumann war es im Princip, er\nsah die ganze römische Geschichte bis auf Cäsar nur als Vorbereitung an für die\nmonarchische Verfassung, die später eintrat. Auch der Jurist Simson, der ge¬\ngenwärtig in Frankfurt ist und der durch einen fließenden Vortrag imponirte, war\nloyal; er wußte sich etwas darauf, im Tribunal zu sitzen und so dem Staate nä¬\nher anzugehören.\n\nAuf legitime Weise wurde also der oppositionelle Sinn der Studirenden\nnicht genährt. Dagegen blieb eine stille Opposition. In keinem Corps wurde\nder präjudicielle Vers des Landesvaters gemacht. Bei den rechten Studenten galt\nes für schlechten Ton, sich mit Politik abzugeben oder gar die Zeitung zu lesen;\naber hin und wieder verirrte sich ein alter Bursch, der von fremden Universitäten\nrelegirt war, nach Königsberg und sah mit dem ganzen Bewußtsein eines verfolgten\nPatrioten auf die gewöhnlichen Sterblichen herab. Je stoffloser dieser Radicalismus\nwar, desto gründlicher verachtete er das Bestehende. Man las seinen Thiers und Mignet\nund schwärmte demnach für Mirabeau und Danton — bis zu Robespierre ver¬\nstieg man sich noch nicht; man war Republikaner, verachtete die Deutschen und\nlas in der Allgemeinen Zeitung nur die Französischen und Englischen Artikel; man\ntrieb nur grande politique und combinirte eine beliebige Niederlage Esparteros mit\neinem Tscherkessischen Krawall, und glücklich in diesem Bewußtsein großer Princi¬\npien hielt man sich des politischen Details für überhoben und trieb die sonstigen\n\n\n56*\f\n"
+                               :right "439\nalljährlich wurde eine Festrede zu Ehren Kant's gehalten. Rosenkranz liebte es,\njunge Talente um sich zu sammeln; damals wurde es Sitte, sich lyrisch gehn zu\nlassen, zuerst in sentimentalen Trinkliedern, doch spielte bald die Freiheit im All¬\ngemeinen und der aufgeklärte Patriotismus hinein, und es fehlte weder die Heiuesche\nZerrissenheit noch die Grün'sche Reflexionspoefie. Die Mehrzahl der Professoren\nhielt auf rationalistischeAuffassung der Geschichte, des Rechts, der Theologie; die\npictistisch gesinnten jnngen Theologen kamelisirten nnd kamen im Studentenlcben nicht\nviel in Betracht. Lobeck kämpfte in seinem philologischenSeminar mit Erfolg\ngegen alle romantischenEinfälle, die seiner Wissenschaft zu nahe traten; er galt\nals Republikaner, da er ohnehin mehr in Rom und Athcu, als in Königsberg\nlebte. Sch ubert, V oigt, Druman n waren entschieden Preußisch gesinut; Schu¬\nbert stellte mit einem diplomatischfeinen Lächeln die Spießbürgerlichkcit der alten\nRepubliken dem complicirten modernen Staatsleben gegenüber ins Licht; er liebte\nes, mit Personen von Stande umzugehn und ironisirte bei seinen Schülern ein\netwa hervortretendes jugendliches Interesse an der französischen Revolution, aber\ner war dabei aufgeklärt und gegen allen Obscurantismns in der Kirche wie im\nStaate. Mit den staatsvkonvmischenKollegien richtete er nicht viel aus, man\nlernte cbeu die Hefte, soviel zum Examen nöthig war uud dachte couservativ ge¬\nnug, sich am Gegcbeucn genügen zn lassen. Voigt stand mit dem Oberpräsiden¬\nten in näherer Verbindung; er war schon seiner amtlichen Beschäftigung nach,\nseinen archivarischen Arbeiten nämlich, Royalist; Drnmann war es im Princip, er\nsah die ganze römische Geschichte bis auf Cäsar nur als Vorbereitung an für die\nmonarchische Verfassung, die später eintrat. Auch der Jurist Simsvn, der ge¬\ngenwärtig in Frankfurt ist und der durch eiucu fließenden Vortrag imponirte, war\nloyal; er wußte sich etwas darauf, im Tribunal zu sitzen und so dem Staate nä¬\nher anzugehören.\nAns legitime Weise wurde also der oppositionelle Sinn der Studirenden\nnicht genährt. Dagegen blieb eine stille Opposition. In keinem Corps wurde\nder präjudiciclle Vers des Landesvaters gemacht. Bei den rechten Studenten galt\nes für schleckten Ton, sich mit Politik abzugeben oder gar die Zeitung zn lesen;\naber hin und wieder verirrte sich ein alter Bursch, der von fremden Universitäten\nrelegirt war, nach Königsberg und sah mit dem ganzen Bewußtsein eines verfolgten\nPatnoten auf die gewöhnlichen Sterblichen bcrab. Je stosslvser dieser Nadicalismus\nwar, desto gründlicher verachtete er das Bestehende.Mm las seine» Thiers nnd Mignct\nnnd schwärmte demnach für Mirabeau nnd Danton — bis zn Nvbe^pierre ver¬\nwieg man sich noch nicht; man war Republikaner, verachtete die Dcutschcu und\nlas in der Allgemeinen Zeitung nur die Französischen uud Englische» Artikel; man\ntrieb nur Ai-itinlo >wI>U,M' nnd combinirte eine beliebige Niederlage Esparteros mit\neinem TscherkessischeuKrawall, uud glücklich iu diesem Bewnßtsein großer Princi¬\npien hielt man sich des politischen Details für überhoben und trieb die sonstigen\n56*\n\n"
+                               :error-codes '([[1 1] [324 324]] [[1 1] [377 377]] [[5 8] [437 437]] [[1 1] [498 497]] [[1 1] [519 518]] [[1 1] [548 547]] [[1 1] [571 570]] [[5 8] [639 638]] [[5 8] [682 680]] [[1 1] [792 789]] [[1 1] [793 790]] [[8 5] [824 821]] [[8 5] [832 830]] [[8 5] [844 843]] [[1 1] [879 879]] [[5 8] [924 924]] [[1 1] [960 959]] [[1 1] [1264 1263]] [[1 1] [1310 1309]] [[1 1] [1314 1313]] [[5 8] [1322 1321]] [[1 1] [1372 1370]] [[1 1] [1375 1373]] [[8 5] [1376 1374]] [[1 1] [1417 1416]] [[1 1] [1429 1428]] [[1 1] [1459 1458]] [[1 1] [1462 1461]] [[1 1] [1463 1462]] [[1 1] [1475 1474]] [[1 1] [1648 1647]] [[1 1] [1821 1820]] [[1 1] [1876 1875]] [[1 1] [1877 1876]] [[1 1] [1878 1877]] [[4 8] [2010 2009]] [[1 1] [2012 2010]] [[1 1] [2013 2011]] [[1 1] [2169 2167]] [[1 1] [2249 2247]] [[1 1] [2308 2306]] [[7 1] [2483 2481] [2484 2482]] [[1 1] [2523 2520]] [[1 1] [2524 2521]] [[1 1] [2536 2533]] [[1 1] [2537 2534]] [[1 1] [2539 2536]] [[1 1] [2551 2548]] [[5 8] [2616 2613]] [[7 1] [2618 2614] [2619 2615]] [[1 4] [2630 2625]] [[1 1] [2639 2634]] [[1 1] [2647 2642]] [[1 1] [2650 2645]] [[1 1] [2685 2680]] [[1 1] [2703 2698]] [[1 1] [2705 2700]] [[1 1] [2706 2701]] [[1 4] [2709 2704]] [[7 1] [2722 2717] [2723 2718]] [[1 1] [2787 2781]] [[1 1] [2793 2787]] [[1 1] [2794 2788]] [[1 1] [2854 2848]] [[1 4] [2866 2860]] [[1 1] [2891 2885]] [[1 1] [2892 2886]] [[1 7] [2893 2887] [2894 2888]] [[8 1] [2894 2889]] [[8 1] [2894 2890]] [[1 1] [2895 2892]] [[1 1] [2896 2893]] [[1 4] [2898 2895]] [[7 1] [2899 2896] [2900 2897]] [[1 4] [2900 2898]] [[1 1] [2901 2899]] [[1 2] [2902 2900]] [[1 1] [2903 2901]] [[1 4] [2904 2902]] [[1 5] [2905 2903]] [[1 1] [2908 2904]] [[1 1] [2985 2981]] [[5 8] [2986 2982]] [[1 1] [2997 2992]] [[1 1] [3011 3006]] [[1 1] [3023 3018]] [[4 8] [3128 3123]] [[4 8] [3129 3123]] [[4 4] [3133 3126]])}
+                              {:left "Mammut" :right "rnaiiiiiiiit"
+                               :error-codes '([[1 7] [0 0] [1 1]] [[1 7] [2 3] [3 5]] [[1 7] [3 6] [4 8]] [[1 7] [4 9] [5 10]])}
+                              ]}))
+
+(defn highlight-view [highlight owner]
+  (reify
+    om/IRender
+    (render [this]
+         (if (string? highlight)
+           (do (prn "string " (dom/span nil highlight))
+           (dom/span nil highlight))
+           (dom/span #js {:style #js {:backgroundColor (:color highlight)}
+                          :id (:id highlight)}
+                     (:text highlight))))))
+
+
+(defn goto-and-mark [error-code i]
+  (let [idl (str i "-" error-code "-l")
+        idr (str i "-" error-code "-r")]
+    (.scrollIntoView (.getElementById js/document idl))
+    (aset (.-style (.getElementById js/document idl))
+          "border" "solid red 1px")
+    (aset (.-style (.getElementById js/document idr))
+          "border" "solid red 1px")
+    (prn "now the style of l is " (aget (.-style (.getElementById js/document idl)) "border"))
+    (js/setTimeout (fn []
+                      (prn "unsetting")
+                     (aset (.-style (.getElementById js/document idl))
+                       "border" "")
+                     (aset (.-style (.getElementById js/document idr))
+                       "border" "")) 2000)))
+
+(defn error-code-link-view [[error-code i] owner]
+  (reify
+    om/IRender
+    (render [this]
+      (dom/a #js {:onClick (fn [& args] (goto-and-mark error-code i))}
+             (str error-code)))))
+
+
+(defn page-summary-view [[error-codes i] owner]
+  (reify
+    om/IRender
+    (render [this]
+            (prn "first error-codes " (first error-codes) "i " i)
+       (apply dom/div nil
+              (str "Es gab " (count error-codes) " Fehler")
+              (om/build-all error-code-link-view (map (fn [a] [a i]) error-codes))))))
+
+
+(defn page-view [[page i] owner]
+  (reify
+    om/IRender
+    (render [this]
+      (let [[hl hr] (build-highlights (:error-codes page) (:left page) (:right page) i)
+            _ (prn "hl hr " hl hr)]
+       (dom/div #js {:className "wrapper"}
+         (om/build page-summary-view [(:error-codes page) i])
+         (apply dom/div #js {:className "left" :id (str "left-" i)}
+                   (om/build-all highlight-view hl ))
+         (apply dom/div #js {:className "right" :id (str "right-" i)}
+                    (om/build-all highlight-view hr)))))))
+
+(defn pages-view [pages owner]
+  (reify
+    om/IRender
+    (render [this]
+            (prn "hi there")
+      (apply dom/div nil
+        (om/build-all page-view (map (fn [a b] [a b]) pages (range)))))))
+
+
+(om/root
+   (fn [app owner]
+     ;;(om/build page-view (first (:pages app))))
+     (dom/div nil (om/build pages-view (:pages app))))
+   ;;  (dom/div #js {:id "ID"} "hi")
+     ;;(om/build (fn [a o] (reify om/IRender (render [this] (dom/span nil "hi")))) nil))
+   app-state
+   {:target (.getElementById js/document "page-container")})
+
 
 (set! (.-onload js/window)
       #(do
-         (repl-connect)
-         (visualize-errors)
+;;         (repl-connect)
+         ;;        (visualize-errors)
+         (prn "hi")
+         (load-om)
          ))
-
