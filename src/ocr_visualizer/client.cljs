@@ -399,8 +399,9 @@
       (dom/div nil
         (dom/div nil "Lade Seiten: ")
         (om/build page-list-view (:available-pages app))))))
-
-(om/root
+(defn init []
+  (GET "/page-list" {:handler (fn [data] (swap! app-state assoc :available-pages data))})
+  (om/root
    (fn [app owner]
      ;;(om/build page-view (first (:pages app))))
      (dom/div nil
@@ -409,17 +410,12 @@
    ;;  (dom/div #js {:id "ID"} "hi")
      ;;(om/build (fn [a o] (reify om/IRender (render [this] (dom/span nil "hi")))) nil))
    app-state
-   {:target (.getElementById js/document "page-container")})
+   {:target (.getElementById js/document "page-container")}))
 
 (set! (.-onload js/window)
       #(do
 ;;         (repl-connect)
          ;;        (visualize-errors)
          (prn "hi")
-         (load-om)
+         (init)o
          ))
-(GET "/page-list" {:handler (fn [data] (swap! app-state assoc :available-pages data))})
-(count (:pages @app-state))
-@app-state
-
-(+ 1 2 3)
