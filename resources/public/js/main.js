@@ -48961,81 +48961,81 @@ ocr_visualizer.client2.highlight = function() {
   return highlight;
 }();
 ocr_visualizer.client2.save_texts = function save_texts(r) {
-  cljs.core.reset_BANG_.call(null, ocr_visualizer.client2.text_left, cljs.core.map.call(null, function(p1__15144_SHARP_) {
-    return domina.html.call(null, domina.by_id.call(null, [cljs.core.str("left-"), cljs.core.str(p1__15144_SHARP_)].join("")));
+  cljs.core.reset_BANG_.call(null, ocr_visualizer.client2.text_left, cljs.core.map.call(null, function(p1__9596_SHARP_) {
+    return domina.html.call(null, domina.by_id.call(null, [cljs.core.str("left-"), cljs.core.str(p1__9596_SHARP_)].join("")));
   }, r));
-  return cljs.core.reset_BANG_.call(null, ocr_visualizer.client2.text_right, cljs.core.map.call(null, function(p1__15145_SHARP_) {
-    return domina.html.call(null, domina.by_id.call(null, [cljs.core.str("right-"), cljs.core.str(p1__15145_SHARP_)].join("")));
+  return cljs.core.reset_BANG_.call(null, ocr_visualizer.client2.text_right, cljs.core.map.call(null, function(p1__9597_SHARP_) {
+    return domina.html.call(null, domina.by_id.call(null, [cljs.core.str("right-"), cljs.core.str(p1__9597_SHARP_)].join("")));
   }, r));
 };
 ocr_visualizer.client2.offset = 43;
 ocr_visualizer.client2.highlight_text = function highlight_text(text, positions) {
-  return cljs.core.apply.call(null, cljs.core.str, cljs.core.conj.call(null, cljs.core.second.call(null, cljs.core.reduce.call(null, function(p__15150, p__15151) {
-    var vec__15152 = p__15150;
-    var pos = cljs.core.nth.call(null, vec__15152, 0, null);
-    var substrings = cljs.core.nth.call(null, vec__15152, 1, null);
-    var vec__15153 = p__15151;
-    var nstart = cljs.core.nth.call(null, vec__15153, 0, null);
-    var nend = cljs.core.nth.call(null, vec__15153, 1, null);
-    var color = cljs.core.nth.call(null, vec__15153, 2, null);
+  return cljs.core.apply.call(null, cljs.core.str, cljs.core.conj.call(null, cljs.core.second.call(null, cljs.core.reduce.call(null, function(p__9602, p__9603) {
+    var vec__9604 = p__9602;
+    var pos = cljs.core.nth.call(null, vec__9604, 0, null);
+    var substrings = cljs.core.nth.call(null, vec__9604, 1, null);
+    var vec__9605 = p__9603;
+    var nstart = cljs.core.nth.call(null, vec__9605, 0, null);
+    var nend = cljs.core.nth.call(null, vec__9605, 1, null);
+    var color = cljs.core.nth.call(null, vec__9605, 2, null);
     return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [nend, cljs.core.conj.call(null, substrings, text.substring(pos, nstart), ocr_visualizer.client2.highlight.call(null, text.substring(nstart, nend), color))], null);
   }, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, cljs.core.PersistentVector.EMPTY], null), positions)), text.substring(cljs.core.second.call(null, cljs.core.last.call(null, positions)), cljs.core.count.call(null, text))));
 };
-ocr_visualizer.client2.build_insertion_highlight = function build_insertion_highlight(p__15154) {
-  var vec__15157 = p__15154;
-  var _ = cljs.core.nth.call(null, vec__15157, 0, null);
-  var vec__15158 = cljs.core.nth.call(null, vec__15157, 1, null);
-  var l = cljs.core.nth.call(null, vec__15158, 0, null);
-  var r = cljs.core.nth.call(null, vec__15158, 1, null);
-  var error = vec__15157;
+ocr_visualizer.client2.build_insertion_highlight = function build_insertion_highlight(p__9606) {
+  var vec__9609 = p__9606;
+  var _ = cljs.core.nth.call(null, vec__9609, 0, null);
+  var vec__9610 = cljs.core.nth.call(null, vec__9609, 1, null);
+  var l = cljs.core.nth.call(null, vec__9610, 0, null);
+  var r = cljs.core.nth.call(null, vec__9610, 1, null);
+  var error = vec__9609;
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "insertion", "insertion", 629449249), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l, "green"], null)], null), 
   new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "insertion", "insertion", 629449249), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r + 1, "green"], null)], null)], null);
 };
-ocr_visualizer.client2.build_deletion_highlight = function build_deletion_highlight(p__15159) {
-  var vec__15162 = p__15159;
-  var _ = cljs.core.nth.call(null, vec__15162, 0, null);
-  var vec__15163 = cljs.core.nth.call(null, vec__15162, 1, null);
-  var l = cljs.core.nth.call(null, vec__15163, 0, null);
-  var r = cljs.core.nth.call(null, vec__15163, 1, null);
-  var error = vec__15162;
+ocr_visualizer.client2.build_deletion_highlight = function build_deletion_highlight(p__9611) {
+  var vec__9614 = p__9611;
+  var _ = cljs.core.nth.call(null, vec__9614, 0, null);
+  var vec__9615 = cljs.core.nth.call(null, vec__9614, 1, null);
+  var l = cljs.core.nth.call(null, vec__9615, 0, null);
+  var r = cljs.core.nth.call(null, vec__9615, 1, null);
+  var error = vec__9614;
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "deletion", "deletion", 1833621312), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l + 1, "red"], null)], null), 
   new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "deletion", "deletion", 1833621312), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r, "red"], null)], null)], null);
 };
-ocr_visualizer.client2.build_one_to_many_highlight = function build_one_to_many_highlight(p__15164) {
-  var vec__15168 = p__15164;
-  var _ = cljs.core.nth.call(null, vec__15168, 0, null);
-  var vec__15169 = cljs.core.nth.call(null, vec__15168, 1, null);
-  var ls = cljs.core.nth.call(null, vec__15169, 0, null);
-  var rs = cljs.core.nth.call(null, vec__15169, 1, null);
-  var vec__15170 = cljs.core.nth.call(null, vec__15168, 2, null);
-  var le = cljs.core.nth.call(null, vec__15170, 0, null);
-  var re = cljs.core.nth.call(null, vec__15170, 1, null);
-  var error = vec__15168;
+ocr_visualizer.client2.build_one_to_many_highlight = function build_one_to_many_highlight(p__9616) {
+  var vec__9620 = p__9616;
+  var _ = cljs.core.nth.call(null, vec__9620, 0, null);
+  var vec__9621 = cljs.core.nth.call(null, vec__9620, 1, null);
+  var ls = cljs.core.nth.call(null, vec__9621, 0, null);
+  var rs = cljs.core.nth.call(null, vec__9621, 1, null);
+  var vec__9622 = cljs.core.nth.call(null, vec__9620, 2, null);
+  var le = cljs.core.nth.call(null, vec__9622, 0, null);
+  var re = cljs.core.nth.call(null, vec__9622, 1, null);
+  var error = vec__9620;
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "one-to-many", "one-to-many", 1025879420), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [ls, le, "yellow"], null)], 
   null), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "one-to-many", "one-to-many", 1025879420), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [rs, re + 1, "yellow"], null)], null)], null);
 };
-ocr_visualizer.client2.build_many_to_one_highlight = function build_many_to_one_highlight(p__15171) {
-  var vec__15175 = p__15171;
-  var _ = cljs.core.nth.call(null, vec__15175, 0, null);
-  var vec__15176 = cljs.core.nth.call(null, vec__15175, 1, null);
-  var ls = cljs.core.nth.call(null, vec__15176, 0, null);
-  var rs = cljs.core.nth.call(null, vec__15176, 1, null);
-  var vec__15177 = cljs.core.nth.call(null, vec__15175, 2, null);
-  var le = cljs.core.nth.call(null, vec__15177, 0, null);
-  var re = cljs.core.nth.call(null, vec__15177, 1, null);
-  var error = vec__15175;
+ocr_visualizer.client2.build_many_to_one_highlight = function build_many_to_one_highlight(p__9623) {
+  var vec__9627 = p__9623;
+  var _ = cljs.core.nth.call(null, vec__9627, 0, null);
+  var vec__9628 = cljs.core.nth.call(null, vec__9627, 1, null);
+  var ls = cljs.core.nth.call(null, vec__9628, 0, null);
+  var rs = cljs.core.nth.call(null, vec__9628, 1, null);
+  var vec__9629 = cljs.core.nth.call(null, vec__9627, 2, null);
+  var le = cljs.core.nth.call(null, vec__9629, 0, null);
+  var re = cljs.core.nth.call(null, vec__9629, 1, null);
+  var error = vec__9627;
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "many-to-one", "many-to-one", 4715821748), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [ls, le + 1, "orange"], null)], 
   null), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "many-to-one", "many-to-one", 4715821748), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [rs, re, "orange"], null)], null)], null);
 };
-ocr_visualizer.client2.build_substitution_highlight = function build_substitution_highlight(p__15178) {
-  var vec__15181 = p__15178;
-  var _ = cljs.core.nth.call(null, vec__15181, 0, null);
-  var vec__15182 = cljs.core.nth.call(null, vec__15181, 1, null);
-  var l = cljs.core.nth.call(null, vec__15182, 0, null);
-  var r = cljs.core.nth.call(null, vec__15182, 1, null);
-  var error = vec__15181;
-  return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l + 1, "blue"], null)], 
-  null), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r + 1, "blue"], null)], null)], null);
+ocr_visualizer.client2.build_substitution_highlight = function build_substitution_highlight(p__9630) {
+  var vec__9633 = p__9630;
+  var _ = cljs.core.nth.call(null, vec__9633, 0, null);
+  var vec__9634 = cljs.core.nth.call(null, vec__9633, 1, null);
+  var l = cljs.core.nth.call(null, vec__9634, 0, null);
+  var r = cljs.core.nth.call(null, vec__9634, 1, null);
+  var error = vec__9633;
+  return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l + 1, "#00FFFF"], 
+  null)], null), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1017479852), new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "position", "position", 1761709211), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r + 1, "#00FFFF"], null)], null)], null);
 };
 ocr_visualizer.client2.get_position = function() {
   var method_table__4301__auto__ = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY);
@@ -49047,57 +49047,57 @@ ocr_visualizer.client2.get_position = function() {
     return a;
   }, new cljs.core.Keyword(null, "default", "default", 2558708147), hierarchy__4305__auto__, method_table__4301__auto__, prefer_table__4302__auto__, method_cache__4303__auto__, cached_hierarchy__4304__auto__);
 }();
-cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), function(_, p__15183) {
-  var vec__15184 = p__15183;
-  var ___$1 = cljs.core.nth.call(null, vec__15184, 0, null);
-  var vec__15185 = cljs.core.nth.call(null, vec__15184, 1, null);
-  var l = cljs.core.nth.call(null, vec__15185, 0, null);
-  var r = cljs.core.nth.call(null, vec__15185, 1, null);
+cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), function(_, p__9635) {
+  var vec__9636 = p__9635;
+  var ___$1 = cljs.core.nth.call(null, vec__9636, 0, null);
+  var vec__9637 = cljs.core.nth.call(null, vec__9636, 1, null);
+  var l = cljs.core.nth.call(null, vec__9637, 0, null);
+  var r = cljs.core.nth.call(null, vec__9637, 1, null);
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l + 1], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r + 1], null)], null);
 });
-cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "many-to-one", "many-to-one", 4715821748), function(_, p__15186) {
-  var vec__15187 = p__15186;
-  var ___$1 = cljs.core.nth.call(null, vec__15187, 0, null);
-  var vec__15188 = cljs.core.nth.call(null, vec__15187, 1, null);
-  var ls = cljs.core.nth.call(null, vec__15188, 0, null);
-  var rs = cljs.core.nth.call(null, vec__15188, 1, null);
-  var vec__15189 = cljs.core.nth.call(null, vec__15187, 2, null);
-  var le = cljs.core.nth.call(null, vec__15189, 0, null);
-  var re = cljs.core.nth.call(null, vec__15189, 1, null);
+cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "many-to-one", "many-to-one", 4715821748), function(_, p__9638) {
+  var vec__9639 = p__9638;
+  var ___$1 = cljs.core.nth.call(null, vec__9639, 0, null);
+  var vec__9640 = cljs.core.nth.call(null, vec__9639, 1, null);
+  var ls = cljs.core.nth.call(null, vec__9640, 0, null);
+  var rs = cljs.core.nth.call(null, vec__9640, 1, null);
+  var vec__9641 = cljs.core.nth.call(null, vec__9639, 2, null);
+  var le = cljs.core.nth.call(null, vec__9641, 0, null);
+  var re = cljs.core.nth.call(null, vec__9641, 1, null);
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [ls, le + 1], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [rs, re], null)], null);
 });
-cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "one-to-many", "one-to-many", 1025879420), function(_, p__15190) {
-  var vec__15191 = p__15190;
-  var ___$1 = cljs.core.nth.call(null, vec__15191, 0, null);
-  var vec__15192 = cljs.core.nth.call(null, vec__15191, 1, null);
-  var ls = cljs.core.nth.call(null, vec__15192, 0, null);
-  var rs = cljs.core.nth.call(null, vec__15192, 1, null);
-  var vec__15193 = cljs.core.nth.call(null, vec__15191, 2, null);
-  var le = cljs.core.nth.call(null, vec__15193, 0, null);
-  var re = cljs.core.nth.call(null, vec__15193, 1, null);
+cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "one-to-many", "one-to-many", 1025879420), function(_, p__9642) {
+  var vec__9643 = p__9642;
+  var ___$1 = cljs.core.nth.call(null, vec__9643, 0, null);
+  var vec__9644 = cljs.core.nth.call(null, vec__9643, 1, null);
+  var ls = cljs.core.nth.call(null, vec__9644, 0, null);
+  var rs = cljs.core.nth.call(null, vec__9644, 1, null);
+  var vec__9645 = cljs.core.nth.call(null, vec__9643, 2, null);
+  var le = cljs.core.nth.call(null, vec__9645, 0, null);
+  var re = cljs.core.nth.call(null, vec__9645, 1, null);
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [ls, le], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [rs, re + 1], null)], null);
 });
-cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "insertion", "insertion", 629449249), function(_, p__15194) {
-  var vec__15195 = p__15194;
-  var ___$1 = cljs.core.nth.call(null, vec__15195, 0, null);
-  var vec__15196 = cljs.core.nth.call(null, vec__15195, 1, null);
-  var l = cljs.core.nth.call(null, vec__15196, 0, null);
-  var r = cljs.core.nth.call(null, vec__15196, 1, null);
+cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "insertion", "insertion", 629449249), function(_, p__9646) {
+  var vec__9647 = p__9646;
+  var ___$1 = cljs.core.nth.call(null, vec__9647, 0, null);
+  var vec__9648 = cljs.core.nth.call(null, vec__9647, 1, null);
+  var l = cljs.core.nth.call(null, vec__9648, 0, null);
+  var r = cljs.core.nth.call(null, vec__9648, 1, null);
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r + 1], null)], null);
 });
-cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "deletion", "deletion", 1833621312), function(_, p__15197) {
-  var vec__15198 = p__15197;
-  var ___$1 = cljs.core.nth.call(null, vec__15198, 0, null);
-  var vec__15199 = cljs.core.nth.call(null, vec__15198, 1, null);
-  var l = cljs.core.nth.call(null, vec__15199, 0, null);
-  var r = cljs.core.nth.call(null, vec__15199, 1, null);
+cljs.core._add_method.call(null, ocr_visualizer.client2.get_position, new cljs.core.Keyword(null, "deletion", "deletion", 1833621312), function(_, p__9649) {
+  var vec__9650 = p__9649;
+  var ___$1 = cljs.core.nth.call(null, vec__9650, 0, null);
+  var vec__9651 = cljs.core.nth.call(null, vec__9650, 1, null);
+  var l = cljs.core.nth.call(null, vec__9651, 0, null);
+  var r = cljs.core.nth.call(null, vec__9651, 1, null);
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [l, l + 1], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [r, r], null)], null);
 });
 ocr_visualizer.client2.empty_sign = "|";
-ocr_visualizer.client2.get_text = function get_text(p__15200, text) {
-  var vec__15202 = p__15200;
-  var start = cljs.core.nth.call(null, vec__15202, 0, null);
-  var end = cljs.core.nth.call(null, vec__15202, 1, null);
+ocr_visualizer.client2.get_text = function get_text(p__9652, text) {
+  var vec__9654 = p__9652;
+  var start = cljs.core.nth.call(null, vec__9654, 0, null);
+  var end = cljs.core.nth.call(null, vec__9654, 1, null);
   var t = text.substring(start, end);
   if (!cljs.core._EQ_.call(null, t, "")) {
     return t;
@@ -49108,16 +49108,16 @@ ocr_visualizer.client2.get_text = function get_text(p__15200, text) {
 ocr_visualizer.client2.make_highlight = function make_highlight(error, type, a, b, page_index) {
   var positionlr = ocr_visualizer.client2.get_position.call(null, type, error);
   var textlr = cljs.core.mapv.call(null, ocr_visualizer.client2.get_text, positionlr, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [a, b], null));
-  var color = cljs.core.get.call(null, new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), "blue", new cljs.core.Keyword(null, "insertion", "insertion", 629449249), "green", new cljs.core.Keyword(null, "deletion", "deletion", 1833621312), "red", new cljs.core.Keyword(null, "one-to-many", "one-to-many", 1025879420), "yellow", new cljs.core.Keyword(null, "many-to-one", "many-to-one", 4715821748), "orange"], null), type);
+  var color = cljs.core.get.call(null, new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null, "substitution", "substitution", 1840051823), "#00FFFF", new cljs.core.Keyword(null, "insertion", "insertion", 629449249), "green", new cljs.core.Keyword(null, "deletion", "deletion", 1833621312), "red", new cljs.core.Keyword(null, "one-to-many", "one-to-many", 1025879420), "yellow", new cljs.core.Keyword(null, "many-to-one", "many-to-one", 4715821748), "orange"], null), type);
   return cljs.core.mapv.call(null, function(pos, text, lr) {
     return new cljs.core.PersistentArrayMap(null, 6, [new cljs.core.Keyword(null, "type", "type", 1017479852), type, new cljs.core.Keyword(null, "position", "position", 1761709211), pos, new cljs.core.Keyword(null, "color", "color", 1108746965), color, new cljs.core.Keyword(null, "text", "text", 1017460895), text, new cljs.core.Keyword(null, "error", "error", 1110689146), error, new cljs.core.Keyword(null, "id", "id", 1013907597), [cljs.core.str(page_index), cljs.core.str("-"), cljs.core.str(error), 
     cljs.core.str("-"), cljs.core.str(lr)].join("")], null);
   }, positionlr, textlr, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["l", "r"], null));
 };
 ocr_visualizer.client2.get_type = function get_type(error) {
-  var vec__15204 = cljs.core.first.call(null, error);
-  var a = cljs.core.nth.call(null, vec__15204, 0, null);
-  var b = cljs.core.nth.call(null, vec__15204, 1, null);
+  var vec__9656 = cljs.core.first.call(null, error);
+  var a = cljs.core.nth.call(null, vec__9656, 0, null);
+  var b = cljs.core.nth.call(null, vec__9656, 1, null);
   if (cljs.core._EQ_.call(null, a, 8)) {
     return new cljs.core.Keyword(null, "insertion", "insertion", 629449249);
   } else {
@@ -49146,76 +49146,76 @@ ocr_visualizer.client2.build_highlight = function build_highlight(error, texta, 
   return ocr_visualizer.client2.make_highlight.call(null, error, type, texta, textb, page_index);
 };
 ocr_visualizer.client2.highlight_text = function highlight_text(text, positions) {
-  return cljs.core.apply.call(null, cljs.core.str, cljs.core.conj.call(null, cljs.core.second.call(null, cljs.core.reduce.call(null, function(p__15209, p__15210) {
-    var vec__15211 = p__15209;
-    var pos = cljs.core.nth.call(null, vec__15211, 0, null);
-    var substrings = cljs.core.nth.call(null, vec__15211, 1, null);
-    var vec__15212 = p__15210;
-    var nstart = cljs.core.nth.call(null, vec__15212, 0, null);
-    var nend = cljs.core.nth.call(null, vec__15212, 1, null);
-    var color = cljs.core.nth.call(null, vec__15212, 2, null);
+  return cljs.core.apply.call(null, cljs.core.str, cljs.core.conj.call(null, cljs.core.second.call(null, cljs.core.reduce.call(null, function(p__9661, p__9662) {
+    var vec__9663 = p__9661;
+    var pos = cljs.core.nth.call(null, vec__9663, 0, null);
+    var substrings = cljs.core.nth.call(null, vec__9663, 1, null);
+    var vec__9664 = p__9662;
+    var nstart = cljs.core.nth.call(null, vec__9664, 0, null);
+    var nend = cljs.core.nth.call(null, vec__9664, 1, null);
+    var color = cljs.core.nth.call(null, vec__9664, 2, null);
     return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [nend, cljs.core.conj.call(null, substrings, text.substring(pos, nstart), ocr_visualizer.client2.highlight.call(null, text.substring(nstart, nend), color))], null);
   }, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, cljs.core.PersistentVector.EMPTY], null), positions)), text.substring(cljs.core.second.call(null, cljs.core.last.call(null, positions)), cljs.core.count.call(null, text))));
 };
 ocr_visualizer.client2.build_highlights = function build_highlights(errors, a, b, page_index) {
-  var x = cljs.core.reduce.call(null, function(p__15221, error) {
-    var vec__15222 = p__15221;
-    var posl = cljs.core.nth.call(null, vec__15222, 0, null);
-    var hls_left = cljs.core.nth.call(null, vec__15222, 1, null);
-    var posr = cljs.core.nth.call(null, vec__15222, 2, null);
-    var hls_right = cljs.core.nth.call(null, vec__15222, 3, null);
-    var vec__15223 = ocr_visualizer.client2.build_highlight.call(null, error, a, b, page_index);
-    var map__15224 = cljs.core.nth.call(null, vec__15223, 0, null);
-    var map__15224__$1 = cljs.core.seq_QMARK_.call(null, map__15224) ? cljs.core.apply.call(null, cljs.core.hash_map, map__15224) : map__15224;
-    var hl_l = map__15224__$1;
-    var vec__15225 = cljs.core.get.call(null, map__15224__$1, new cljs.core.Keyword(null, "position", "position", 1761709211));
-    var ls = cljs.core.nth.call(null, vec__15225, 0, null);
-    var le = cljs.core.nth.call(null, vec__15225, 1, null);
-    var map__15226 = cljs.core.nth.call(null, vec__15223, 1, null);
-    var map__15226__$1 = cljs.core.seq_QMARK_.call(null, map__15226) ? cljs.core.apply.call(null, cljs.core.hash_map, map__15226) : map__15226;
-    var hl_r = map__15226__$1;
-    var vec__15227 = cljs.core.get.call(null, map__15226__$1, new cljs.core.Keyword(null, "position", "position", 1761709211));
-    var rs = cljs.core.nth.call(null, vec__15227, 0, null);
-    var re = cljs.core.nth.call(null, vec__15227, 1, null);
+  var x = cljs.core.reduce.call(null, function(p__9673, error) {
+    var vec__9674 = p__9673;
+    var posl = cljs.core.nth.call(null, vec__9674, 0, null);
+    var hls_left = cljs.core.nth.call(null, vec__9674, 1, null);
+    var posr = cljs.core.nth.call(null, vec__9674, 2, null);
+    var hls_right = cljs.core.nth.call(null, vec__9674, 3, null);
+    var vec__9675 = ocr_visualizer.client2.build_highlight.call(null, error, a, b, page_index);
+    var map__9676 = cljs.core.nth.call(null, vec__9675, 0, null);
+    var map__9676__$1 = cljs.core.seq_QMARK_.call(null, map__9676) ? cljs.core.apply.call(null, cljs.core.hash_map, map__9676) : map__9676;
+    var hl_l = map__9676__$1;
+    var vec__9677 = cljs.core.get.call(null, map__9676__$1, new cljs.core.Keyword(null, "position", "position", 1761709211));
+    var ls = cljs.core.nth.call(null, vec__9677, 0, null);
+    var le = cljs.core.nth.call(null, vec__9677, 1, null);
+    var map__9678 = cljs.core.nth.call(null, vec__9675, 1, null);
+    var map__9678__$1 = cljs.core.seq_QMARK_.call(null, map__9678) ? cljs.core.apply.call(null, cljs.core.hash_map, map__9678) : map__9678;
+    var hl_r = map__9678__$1;
+    var vec__9679 = cljs.core.get.call(null, map__9678__$1, new cljs.core.Keyword(null, "position", "position", 1761709211));
+    var rs = cljs.core.nth.call(null, vec__9679, 0, null);
+    var re = cljs.core.nth.call(null, vec__9679, 1, null);
     return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [le, cljs.core.conj.call(null, hls_left, a.substring(posl, ls), hl_l), re, cljs.core.conj.call(null, hls_right, b.substring(posr, rs), hl_r)], null);
   }, new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, cljs.core.PersistentVector.EMPTY, 0, cljs.core.PersistentVector.EMPTY], null), errors);
   var x__$1 = function() {
-    var vec__15228 = x;
-    var le = cljs.core.nth.call(null, vec__15228, 0, null);
-    var hls = cljs.core.nth.call(null, vec__15228, 1, null);
-    var re = cljs.core.nth.call(null, vec__15228, 2, null);
-    var hlr = cljs.core.nth.call(null, vec__15228, 3, null);
+    var vec__9680 = x;
+    var le = cljs.core.nth.call(null, vec__9680, 0, null);
+    var hls = cljs.core.nth.call(null, vec__9680, 1, null);
+    var re = cljs.core.nth.call(null, vec__9680, 2, null);
+    var hlr = cljs.core.nth.call(null, vec__9680, 3, null);
     return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.conj.call(null, hls, a.substring(le, cljs.core.count.call(null, a))), cljs.core.conj.call(null, hlr, b.substring(re, cljs.core.count.call(null, b)))], null);
   }();
   return x__$1;
 };
 ocr_visualizer.client2.fill_highlights = function fill_highlights(r) {
-  var errors = cljs.core.map.call(null, function(p1__15229_SHARP_) {
-    return cljs.reader.read_string.call(null, domina.html.call(null, domina.by_id.call(null, [cljs.core.str("errors-"), cljs.core.str(p1__15229_SHARP_)].join(""))));
+  var errors = cljs.core.map.call(null, function(p1__9681_SHARP_) {
+    return cljs.reader.read_string.call(null, domina.html.call(null, domina.by_id.call(null, [cljs.core.str("errors-"), cljs.core.str(p1__9681_SHARP_)].join(""))));
   }, r);
   var hl = cljs.core.map.call(null, function(errors) {
     return function(errors__$1) {
       var iter__4160__auto__ = function(errors) {
-        return function iter__15234(s__15235) {
+        return function iter__9686(s__9687) {
           return new cljs.core.LazySeq(null, function(errors) {
             return function() {
-              var s__15235__$1 = s__15235;
+              var s__9687__$1 = s__9687;
               while (true) {
-                var temp__4092__auto__ = cljs.core.seq.call(null, s__15235__$1);
+                var temp__4092__auto__ = cljs.core.seq.call(null, s__9687__$1);
                 if (temp__4092__auto__) {
-                  var s__15235__$2 = temp__4092__auto__;
-                  if (cljs.core.chunked_seq_QMARK_.call(null, s__15235__$2)) {
-                    var c__4158__auto__ = cljs.core.chunk_first.call(null, s__15235__$2);
+                  var s__9687__$2 = temp__4092__auto__;
+                  if (cljs.core.chunked_seq_QMARK_.call(null, s__9687__$2)) {
+                    var c__4158__auto__ = cljs.core.chunk_first.call(null, s__9687__$2);
                     var size__4159__auto__ = cljs.core.count.call(null, c__4158__auto__);
-                    var b__15237 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
+                    var b__9689 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
                     if (function() {
-                      var i__15236 = 0;
+                      var i__9688 = 0;
                       while (true) {
-                        if (i__15236 < size__4159__auto__) {
-                          var e = cljs.core._nth.call(null, c__4158__auto__, i__15236);
-                          cljs.core.chunk_append.call(null, b__15237, ocr_visualizer.client2.light.call(null, e));
-                          var G__15238 = i__15236 + 1;
-                          i__15236 = G__15238;
+                        if (i__9688 < size__4159__auto__) {
+                          var e = cljs.core._nth.call(null, c__4158__auto__, i__9688);
+                          cljs.core.chunk_append.call(null, b__9689, ocr_visualizer.client2.highlight.call(null, e));
+                          var G__9690 = i__9688 + 1;
+                          i__9688 = G__9690;
                           continue;
                         } else {
                           return true;
@@ -49223,13 +49223,13 @@ ocr_visualizer.client2.fill_highlights = function fill_highlights(r) {
                         break;
                       }
                     }()) {
-                      return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15237), iter__15234.call(null, cljs.core.chunk_rest.call(null, s__15235__$2)));
+                      return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9689), iter__9686.call(null, cljs.core.chunk_rest.call(null, s__9687__$2)));
                     } else {
-                      return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15237), null);
+                      return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9689), null);
                     }
                   } else {
-                    var e = cljs.core.first.call(null, s__15235__$2);
-                    return cljs.core.cons.call(null, ocr_visualizer.client2.light.call(null, e), iter__15234.call(null, cljs.core.rest.call(null, s__15235__$2)));
+                    var e = cljs.core.first.call(null, s__9687__$2);
+                    return cljs.core.cons.call(null, ocr_visualizer.client2.highlight.call(null, e), iter__9686.call(null, cljs.core.rest.call(null, s__9687__$2)));
                   }
                 } else {
                   return null;
@@ -49257,8 +49257,8 @@ ocr_visualizer.client2.show_highlights = function show_highlights(r) {
     if (i < n__4291__auto__) {
       domina.set_html_BANG_.call(null, domina.by_id.call(null, [cljs.core.str("left-"), cljs.core.str(i)].join("")), ocr_visualizer.client2.highlight_text.call(null, cljs.core.nth.call(null, cljs.core.deref.call(null, ocr_visualizer.client2.text_left), i), cljs.core.nth.call(null, cljs.core.deref.call(null, ocr_visualizer.client2.highlights_left), i)));
       domina.set_html_BANG_.call(null, domina.by_id.call(null, [cljs.core.str("right-"), cljs.core.str(i)].join("")), ocr_visualizer.client2.highlight_text.call(null, cljs.core.nth.call(null, cljs.core.deref.call(null, ocr_visualizer.client2.text_right), i), cljs.core.nth.call(null, cljs.core.deref.call(null, ocr_visualizer.client2.highlights_right), i)));
-      var G__15239 = i + 1;
-      i = G__15239;
+      var G__9691 = i + 1;
+      i = G__9691;
       continue;
     } else {
       return null;
@@ -49271,33 +49271,33 @@ ocr_visualizer.client2.fill_table = function fill_table(r) {
   var i = 0;
   while (true) {
     if (i < n__4291__auto__) {
-      var errors_15257 = cljs.reader.read_string.call(null, domina.html.call(null, domina.by_id.call(null, [cljs.core.str("errors-"), cljs.core.str(i)].join(""))));
-      var kinds_15258 = cljs.core.group_by.call(null, cljs.core.first, errors_15257);
-      var rows_15259 = function() {
-        var iter__4160__auto__ = function(i, errors_15257, kinds_15258) {
-          return function iter__15249(s__15250) {
-            return new cljs.core.LazySeq(null, function(i, errors_15257, kinds_15258) {
+      var errors_9709 = cljs.reader.read_string.call(null, domina.html.call(null, domina.by_id.call(null, [cljs.core.str("errors-"), cljs.core.str(i)].join(""))));
+      var kinds_9710 = cljs.core.group_by.call(null, cljs.core.first, errors_9709);
+      var rows_9711 = function() {
+        var iter__4160__auto__ = function(i, errors_9709, kinds_9710) {
+          return function iter__9701(s__9702) {
+            return new cljs.core.LazySeq(null, function(i, errors_9709, kinds_9710) {
               return function() {
-                var s__15250__$1 = s__15250;
+                var s__9702__$1 = s__9702;
                 while (true) {
-                  var temp__4092__auto__ = cljs.core.seq.call(null, s__15250__$1);
+                  var temp__4092__auto__ = cljs.core.seq.call(null, s__9702__$1);
                   if (temp__4092__auto__) {
-                    var s__15250__$2 = temp__4092__auto__;
-                    if (cljs.core.chunked_seq_QMARK_.call(null, s__15250__$2)) {
-                      var c__4158__auto__ = cljs.core.chunk_first.call(null, s__15250__$2);
+                    var s__9702__$2 = temp__4092__auto__;
+                    if (cljs.core.chunked_seq_QMARK_.call(null, s__9702__$2)) {
+                      var c__4158__auto__ = cljs.core.chunk_first.call(null, s__9702__$2);
                       var size__4159__auto__ = cljs.core.count.call(null, c__4158__auto__);
-                      var b__15252 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
+                      var b__9704 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
                       if (function() {
-                        var i__15251 = 0;
+                        var i__9703 = 0;
                         while (true) {
-                          if (i__15251 < size__4159__auto__) {
-                            var vec__15255 = cljs.core._nth.call(null, c__4158__auto__, i__15251);
-                            var code = cljs.core.nth.call(null, vec__15255, 0, null);
-                            var positions = cljs.core.nth.call(null, vec__15255, 1, null);
-                            cljs.core.chunk_append.call(null, b__15252, [cljs.core.str("\x3ctr\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(code), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.count.call(null, positions)), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(positions), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.nth.call(null, cljs.core.first.call(null, ocr_visualizer.client2.light.call(null, 
+                          if (i__9703 < size__4159__auto__) {
+                            var vec__9707 = cljs.core._nth.call(null, c__4158__auto__, i__9703);
+                            var code = cljs.core.nth.call(null, vec__9707, 0, null);
+                            var positions = cljs.core.nth.call(null, vec__9707, 1, null);
+                            cljs.core.chunk_append.call(null, b__9704, [cljs.core.str("\x3ctr\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(code), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.count.call(null, positions)), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(positions), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.nth.call(null, cljs.core.first.call(null, ocr_visualizer.client2.highlight.call(null, 
                             new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [code, cljs.core.first.call(null, positions)], null))), 2)), cljs.core.str("\x3c/tr\x3e")].join(""));
-                            var G__15261 = i__15251 + 1;
-                            i__15251 = G__15261;
+                            var G__9713 = i__9703 + 1;
+                            i__9703 = G__9713;
                             continue;
                           } else {
                             return true;
@@ -49305,16 +49305,16 @@ ocr_visualizer.client2.fill_table = function fill_table(r) {
                           break;
                         }
                       }()) {
-                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15252), iter__15249.call(null, cljs.core.chunk_rest.call(null, s__15250__$2)));
+                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9704), iter__9701.call(null, cljs.core.chunk_rest.call(null, s__9702__$2)));
                       } else {
-                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15252), null);
+                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9704), null);
                       }
                     } else {
-                      var vec__15256 = cljs.core.first.call(null, s__15250__$2);
-                      var code = cljs.core.nth.call(null, vec__15256, 0, null);
-                      var positions = cljs.core.nth.call(null, vec__15256, 1, null);
-                      return cljs.core.cons.call(null, [cljs.core.str("\x3ctr\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(code), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.count.call(null, positions)), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(positions), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.nth.call(null, cljs.core.first.call(null, ocr_visualizer.client2.light.call(null, new cljs.core.PersistentVector(null, 
-                      2, 5, cljs.core.PersistentVector.EMPTY_NODE, [code, cljs.core.first.call(null, positions)], null))), 2)), cljs.core.str("\x3c/tr\x3e")].join(""), iter__15249.call(null, cljs.core.rest.call(null, s__15250__$2)));
+                      var vec__9708 = cljs.core.first.call(null, s__9702__$2);
+                      var code = cljs.core.nth.call(null, vec__9708, 0, null);
+                      var positions = cljs.core.nth.call(null, vec__9708, 1, null);
+                      return cljs.core.cons.call(null, [cljs.core.str("\x3ctr\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(code), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.count.call(null, positions)), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(positions), cljs.core.str("\x3c/td\x3e"), cljs.core.str("\x3ctd\x3e"), cljs.core.str(cljs.core.nth.call(null, cljs.core.first.call(null, ocr_visualizer.client2.highlight.call(null, 
+                      new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [code, cljs.core.first.call(null, positions)], null))), 2)), cljs.core.str("\x3c/tr\x3e")].join(""), iter__9701.call(null, cljs.core.rest.call(null, s__9702__$2)));
                     }
                   } else {
                     return null;
@@ -49322,19 +49322,19 @@ ocr_visualizer.client2.fill_table = function fill_table(r) {
                   break;
                 }
               };
-            }(i, errors_15257, kinds_15258), null, null);
+            }(i, errors_9709, kinds_9710), null, null);
           };
-        }(i, errors_15257, kinds_15258);
-        return iter__4160__auto__.call(null, cljs.core.sort_by.call(null, cljs.core.comp.call(null, function(i, iter__4160__auto__, errors_15257, kinds_15258) {
-          return function(p1__15240_SHARP_) {
-            return cljs.core.reduce.call(null, cljs.core._PLUS_, p1__15240_SHARP_);
+        }(i, errors_9709, kinds_9710);
+        return iter__4160__auto__.call(null, cljs.core.sort_by.call(null, cljs.core.comp.call(null, function(i, iter__4160__auto__, errors_9709, kinds_9710) {
+          return function(p1__9692_SHARP_) {
+            return cljs.core.reduce.call(null, cljs.core._PLUS_, p1__9692_SHARP_);
           };
-        }(i, iter__4160__auto__, errors_15257, kinds_15258), cljs.core.first), kinds_15258));
+        }(i, iter__4160__auto__, errors_9709, kinds_9710), cljs.core.first), kinds_9710));
       }();
-      var table_15260 = domina.html.call(null, domina.by_id.call(null, [cljs.core.str("table-"), cljs.core.str(i)].join("")));
-      domina.set_html_BANG_.call(null, domina.by_id.call(null, [cljs.core.str("table-"), cljs.core.str(i)].join("")), [cljs.core.str(table_15260.substring(0, cljs.core.count.call(null, table_15260) - 8)), cljs.core.str(cljs.core.apply.call(null, cljs.core.str, rows_15259))].join(""));
-      var G__15262 = i + 1;
-      i = G__15262;
+      var table_9712 = domina.html.call(null, domina.by_id.call(null, [cljs.core.str("table-"), cljs.core.str(i)].join("")));
+      domina.set_html_BANG_.call(null, domina.by_id.call(null, [cljs.core.str("table-"), cljs.core.str(i)].join("")), [cljs.core.str(table_9712.substring(0, cljs.core.count.call(null, table_9712) - 8)), cljs.core.str(cljs.core.apply.call(null, cljs.core.str, rows_9711))].join(""));
+      var G__9714 = i + 1;
+      i = G__9714;
       continue;
     } else {
       return null;
@@ -49357,23 +49357,23 @@ ocr_visualizer.client2.compute_highlights = function compute_highlights(left, ri
 };
 ocr_visualizer.client2.app_state = cljs.core.atom.call(null, new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "pages", "pages", 1120330550), cljs.core.PersistentVector.EMPTY, new cljs.core.Keyword(null, "available-pages", "available-pages", 4626810674), cljs.core.PersistentVector.EMPTY], null));
 ocr_visualizer.client2.highlight_view = function highlight_view(highlight, owner) {
-  if (typeof ocr_visualizer.client2.t15266 !== "undefined") {
+  if (typeof ocr_visualizer.client2.t9718 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15266 = function(owner, highlight, highlight_view, meta15267) {
+    ocr_visualizer.client2.t9718 = function(owner, highlight, highlight_view, meta9719) {
       this.owner = owner;
       this.highlight = highlight;
       this.highlight_view = highlight_view;
-      this.meta15267 = meta15267;
+      this.meta9719 = meta9719;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15266.cljs$lang$type = true;
-    ocr_visualizer.client2.t15266.cljs$lang$ctorStr = "ocr-visualizer.client2/t15266";
-    ocr_visualizer.client2.t15266.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15266");
+    ocr_visualizer.client2.t9718.cljs$lang$type = true;
+    ocr_visualizer.client2.t9718.cljs$lang$ctorStr = "ocr-visualizer.client2/t9718";
+    ocr_visualizer.client2.t9718.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9718");
     };
-    ocr_visualizer.client2.t15266.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15266.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9718.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9718.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
       if (typeof self__.highlight === "string") {
@@ -49382,21 +49382,21 @@ ocr_visualizer.client2.highlight_view = function highlight_view(highlight, owner
         return React.DOM.span({"id":(new cljs.core.Keyword(null, "id", "id", 1013907597)).cljs$core$IFn$_invoke$arity$1(self__.highlight), "style":{"backgroundColor":(new cljs.core.Keyword(null, "color", "color", 1108746965)).cljs$core$IFn$_invoke$arity$1(self__.highlight)}}, (new cljs.core.Keyword(null, "text", "text", 1017460895)).cljs$core$IFn$_invoke$arity$1(self__.highlight));
       }
     };
-    ocr_visualizer.client2.t15266.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15268) {
+    ocr_visualizer.client2.t9718.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9720) {
       var self__ = this;
-      var _15268__$1 = this;
-      return self__.meta15267;
+      var _9720__$1 = this;
+      return self__.meta9719;
     };
-    ocr_visualizer.client2.t15266.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15268, meta15267__$1) {
+    ocr_visualizer.client2.t9718.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9720, meta9719__$1) {
       var self__ = this;
-      var _15268__$1 = this;
-      return new ocr_visualizer.client2.t15266(self__.owner, self__.highlight, self__.highlight_view, meta15267__$1);
+      var _9720__$1 = this;
+      return new ocr_visualizer.client2.t9718(self__.owner, self__.highlight, self__.highlight_view, meta9719__$1);
     };
-    ocr_visualizer.client2.__GT_t15266 = function __GT_t15266(owner__$1, highlight__$1, highlight_view__$1, meta15267) {
-      return new ocr_visualizer.client2.t15266(owner__$1, highlight__$1, highlight_view__$1, meta15267);
+    ocr_visualizer.client2.__GT_t9718 = function __GT_t9718(owner__$1, highlight__$1, highlight_view__$1, meta9719) {
+      return new ocr_visualizer.client2.t9718(owner__$1, highlight__$1, highlight_view__$1, meta9719);
     };
   }
-  return new ocr_visualizer.client2.t15266(owner, highlight, highlight_view, null);
+  return new ocr_visualizer.client2.t9718(owner, highlight, highlight_view, null);
 };
 ocr_visualizer.client2.goto_and_mark = function goto_and_mark(error_code, i) {
   var idl = [cljs.core.str(i), cljs.core.str("-"), cljs.core.str(error_code), cljs.core.str("-l")].join("");
@@ -49410,132 +49410,132 @@ ocr_visualizer.client2.goto_and_mark = function goto_and_mark(error_code, i) {
     return domina.remove_class_BANG_.call(null, domina.by_id.call(null, idr), "boxed");
   }, 2E3);
 };
-ocr_visualizer.client2.error_code_link_view = function error_code_link_view(p__15269, owner) {
-  var vec__15275 = p__15269;
-  var error_code = cljs.core.nth.call(null, vec__15275, 0, null);
-  var left = cljs.core.nth.call(null, vec__15275, 1, null);
-  var right = cljs.core.nth.call(null, vec__15275, 2, null);
-  var i = cljs.core.nth.call(null, vec__15275, 3, null);
-  if (typeof ocr_visualizer.client2.t15276 !== "undefined") {
+ocr_visualizer.client2.error_code_link_view = function error_code_link_view(p__9721, owner) {
+  var vec__9727 = p__9721;
+  var error_code = cljs.core.nth.call(null, vec__9727, 0, null);
+  var left = cljs.core.nth.call(null, vec__9727, 1, null);
+  var right = cljs.core.nth.call(null, vec__9727, 2, null);
+  var i = cljs.core.nth.call(null, vec__9727, 3, null);
+  if (typeof ocr_visualizer.client2.t9728 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15276 = function(i, right, left, error_code, vec__15275, owner, p__15269, error_code_link_view, meta15277) {
+    ocr_visualizer.client2.t9728 = function(i, right, left, error_code, vec__9727, owner, p__9721, error_code_link_view, meta9729) {
       this.i = i;
       this.right = right;
       this.left = left;
       this.error_code = error_code;
-      this.vec__15275 = vec__15275;
+      this.vec__9727 = vec__9727;
       this.owner = owner;
-      this.p__15269 = p__15269;
+      this.p__9721 = p__9721;
       this.error_code_link_view = error_code_link_view;
-      this.meta15277 = meta15277;
+      this.meta9729 = meta9729;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15276.cljs$lang$type = true;
-    ocr_visualizer.client2.t15276.cljs$lang$ctorStr = "ocr-visualizer.client2/t15276";
-    ocr_visualizer.client2.t15276.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15276");
+    ocr_visualizer.client2.t9728.cljs$lang$type = true;
+    ocr_visualizer.client2.t9728.cljs$lang$ctorStr = "ocr-visualizer.client2/t9728";
+    ocr_visualizer.client2.t9728.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9728");
     };
-    ocr_visualizer.client2.t15276.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15276.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9728.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9728.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
-      var vec__15279 = ocr_visualizer.client2.build_highlight.call(null, self__.error_code, self__.left, self__.right, self__.i);
-      var hl = cljs.core.nth.call(null, vec__15279, 0, null);
-      var hr = cljs.core.nth.call(null, vec__15279, 1, null);
+      var vec__9731 = ocr_visualizer.client2.build_highlight.call(null, self__.error_code, self__.left, self__.right, self__.i);
+      var hl = cljs.core.nth.call(null, vec__9731, 0, null);
+      var hr = cljs.core.nth.call(null, vec__9731, 1, null);
       return React.DOM.a({"onClick":function() {
-        var G__15280__delegate = function(args) {
+        var G__9732__delegate = function(args) {
           return ocr_visualizer.client2.goto_and_mark.call(null, self__.error_code, self__.i);
         };
-        var G__15280 = function(var_args) {
+        var G__9732 = function(var_args) {
           var args = null;
           if (arguments.length > 0) {
             args = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0), 0);
           }
-          return G__15280__delegate.call(this, args);
+          return G__9732__delegate.call(this, args);
         };
-        G__15280.cljs$lang$maxFixedArity = 0;
-        G__15280.cljs$lang$applyTo = function(arglist__15281) {
-          var args = cljs.core.seq(arglist__15281);
-          return G__15280__delegate(args);
+        G__9732.cljs$lang$maxFixedArity = 0;
+        G__9732.cljs$lang$applyTo = function(arglist__9733) {
+          var args = cljs.core.seq(arglist__9733);
+          return G__9732__delegate(args);
         };
-        G__15280.cljs$core$IFn$_invoke$arity$variadic = G__15280__delegate;
-        return G__15280;
+        G__9732.cljs$core$IFn$_invoke$arity$variadic = G__9732__delegate;
+        return G__9732;
       }()}, [cljs.core.str(cljs.core.first.call(null, self__.error_code)), cljs.core.str(":"), cljs.core.str((new cljs.core.Keyword(null, "text", "text", 1017460895)).cljs$core$IFn$_invoke$arity$1(hl)), cljs.core.str("-\x3e"), cljs.core.str((new cljs.core.Keyword(null, "text", "text", 1017460895)).cljs$core$IFn$_invoke$arity$1(hr))].join(""));
     };
-    ocr_visualizer.client2.t15276.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15278) {
+    ocr_visualizer.client2.t9728.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9730) {
       var self__ = this;
-      var _15278__$1 = this;
-      return self__.meta15277;
+      var _9730__$1 = this;
+      return self__.meta9729;
     };
-    ocr_visualizer.client2.t15276.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15278, meta15277__$1) {
+    ocr_visualizer.client2.t9728.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9730, meta9729__$1) {
       var self__ = this;
-      var _15278__$1 = this;
-      return new ocr_visualizer.client2.t15276(self__.i, self__.right, self__.left, self__.error_code, self__.vec__15275, self__.owner, self__.p__15269, self__.error_code_link_view, meta15277__$1);
+      var _9730__$1 = this;
+      return new ocr_visualizer.client2.t9728(self__.i, self__.right, self__.left, self__.error_code, self__.vec__9727, self__.owner, self__.p__9721, self__.error_code_link_view, meta9729__$1);
     };
-    ocr_visualizer.client2.__GT_t15276 = function __GT_t15276(i__$1, right__$1, left__$1, error_code__$1, vec__15275__$1, owner__$1, p__15269__$1, error_code_link_view__$1, meta15277) {
-      return new ocr_visualizer.client2.t15276(i__$1, right__$1, left__$1, error_code__$1, vec__15275__$1, owner__$1, p__15269__$1, error_code_link_view__$1, meta15277);
+    ocr_visualizer.client2.__GT_t9728 = function __GT_t9728(i__$1, right__$1, left__$1, error_code__$1, vec__9727__$1, owner__$1, p__9721__$1, error_code_link_view__$1, meta9729) {
+      return new ocr_visualizer.client2.t9728(i__$1, right__$1, left__$1, error_code__$1, vec__9727__$1, owner__$1, p__9721__$1, error_code_link_view__$1, meta9729);
     };
   }
-  return new ocr_visualizer.client2.t15276(i, right, left, error_code, vec__15275, owner, p__15269, error_code_link_view, null);
+  return new ocr_visualizer.client2.t9728(i, right, left, error_code, vec__9727, owner, p__9721, error_code_link_view, null);
 };
-ocr_visualizer.client2.table_view = function table_view(p__15282, owner) {
-  var vec__15295 = p__15282;
-  var error_codes = cljs.core.nth.call(null, vec__15295, 0, null);
-  var left = cljs.core.nth.call(null, vec__15295, 1, null);
-  var right = cljs.core.nth.call(null, vec__15295, 2, null);
-  var i = cljs.core.nth.call(null, vec__15295, 3, null);
-  if (typeof ocr_visualizer.client2.t15296 !== "undefined") {
+ocr_visualizer.client2.table_view = function table_view(p__9734, owner) {
+  var vec__9747 = p__9734;
+  var error_codes = cljs.core.nth.call(null, vec__9747, 0, null);
+  var left = cljs.core.nth.call(null, vec__9747, 1, null);
+  var right = cljs.core.nth.call(null, vec__9747, 2, null);
+  var i = cljs.core.nth.call(null, vec__9747, 3, null);
+  if (typeof ocr_visualizer.client2.t9748 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15296 = function(i, right, left, error_codes, vec__15295, owner, p__15282, table_view, meta15297) {
+    ocr_visualizer.client2.t9748 = function(i, right, left, error_codes, vec__9747, owner, p__9734, table_view, meta9749) {
       this.i = i;
       this.right = right;
       this.left = left;
       this.error_codes = error_codes;
-      this.vec__15295 = vec__15295;
+      this.vec__9747 = vec__9747;
       this.owner = owner;
-      this.p__15282 = p__15282;
+      this.p__9734 = p__9734;
       this.table_view = table_view;
-      this.meta15297 = meta15297;
+      this.meta9749 = meta9749;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15296.cljs$lang$type = true;
-    ocr_visualizer.client2.t15296.cljs$lang$ctorStr = "ocr-visualizer.client2/t15296";
-    ocr_visualizer.client2.t15296.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15296");
+    ocr_visualizer.client2.t9748.cljs$lang$type = true;
+    ocr_visualizer.client2.t9748.cljs$lang$ctorStr = "ocr-visualizer.client2/t9748";
+    ocr_visualizer.client2.t9748.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9748");
     };
-    ocr_visualizer.client2.t15296.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15296.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9748.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9748.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
       var categories = cljs.core.group_by.call(null, ocr_visualizer.client2.get_type, self__.error_codes);
       return React.DOM.div({"className":"table-div"}, React.DOM.table({"id":[cljs.core.str("table-"), cljs.core.str(self__.i)].join(""), "className":"table"}, cljs.core.apply.call(null, om.dom.tbody, null, React.DOM.tr(null, React.DOM.th(null, "Fehlerart"), React.DOM.th(null, "Fehler"), React.DOM.th(null, "Anzahl")), function() {
-        var iter__4160__auto__ = function iter__15299(s__15300) {
+        var iter__4160__auto__ = function iter__9751(s__9752) {
           return new cljs.core.LazySeq(null, function() {
-            var s__15300__$1 = s__15300;
+            var s__9752__$1 = s__9752;
             while (true) {
-              var temp__4092__auto__ = cljs.core.seq.call(null, s__15300__$1);
+              var temp__4092__auto__ = cljs.core.seq.call(null, s__9752__$1);
               if (temp__4092__auto__) {
-                var s__15300__$2 = temp__4092__auto__;
-                if (cljs.core.chunked_seq_QMARK_.call(null, s__15300__$2)) {
-                  var c__4158__auto__ = cljs.core.chunk_first.call(null, s__15300__$2);
+                var s__9752__$2 = temp__4092__auto__;
+                if (cljs.core.chunked_seq_QMARK_.call(null, s__9752__$2)) {
+                  var c__4158__auto__ = cljs.core.chunk_first.call(null, s__9752__$2);
                   var size__4159__auto__ = cljs.core.count.call(null, c__4158__auto__);
-                  var b__15302 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
+                  var b__9754 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
                   if (function() {
-                    var i__15301 = 0;
+                    var i__9753 = 0;
                     while (true) {
-                      if (i__15301 < size__4159__auto__) {
-                        var vec__15305 = cljs.core._nth.call(null, c__4158__auto__, i__15301);
-                        var k = cljs.core.nth.call(null, vec__15305, 0, null);
-                        var codes = cljs.core.nth.call(null, vec__15305, 1, null);
-                        cljs.core.chunk_append.call(null, b__15302, React.DOM.tr(null, React.DOM.td(null, cljs.core.name.call(null, k)), cljs.core.apply.call(null, om.dom.td, null, om.core.build_all.call(null, ocr_visualizer.client2.error_code_link_view, cljs.core.map.call(null, function(i__15301, vec__15305, k, codes, c__4158__auto__, size__4159__auto__, b__15302, s__15300__$2, temp__4092__auto__) {
+                      if (i__9753 < size__4159__auto__) {
+                        var vec__9757 = cljs.core._nth.call(null, c__4158__auto__, i__9753);
+                        var k = cljs.core.nth.call(null, vec__9757, 0, null);
+                        var codes = cljs.core.nth.call(null, vec__9757, 1, null);
+                        cljs.core.chunk_append.call(null, b__9754, React.DOM.tr(null, React.DOM.td(null, cljs.core.name.call(null, k)), cljs.core.apply.call(null, om.dom.td, null, om.core.build_all.call(null, ocr_visualizer.client2.error_code_link_view, cljs.core.map.call(null, function(i__9753, vec__9757, k, codes, c__4158__auto__, size__4159__auto__, b__9754, s__9752__$2, temp__4092__auto__) {
                           return function(a) {
                             return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [a, self__.left, self__.right, self__.i], null);
                           };
-                        }(i__15301, vec__15305, k, codes, c__4158__auto__, size__4159__auto__, b__15302, s__15300__$2, temp__4092__auto__), codes))), React.DOM.td(null, [cljs.core.str(cljs.core.count.call(null, codes))].join(""))));
-                        var G__15307 = i__15301 + 1;
-                        i__15301 = G__15307;
+                        }(i__9753, vec__9757, k, codes, c__4158__auto__, size__4159__auto__, b__9754, s__9752__$2, temp__4092__auto__), codes))), React.DOM.td(null, [cljs.core.str(cljs.core.count.call(null, codes))].join(""))));
+                        var G__9759 = i__9753 + 1;
+                        i__9753 = G__9759;
                         continue;
                       } else {
                         return true;
@@ -49543,19 +49543,19 @@ ocr_visualizer.client2.table_view = function table_view(p__15282, owner) {
                       break;
                     }
                   }()) {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15302), iter__15299.call(null, cljs.core.chunk_rest.call(null, s__15300__$2)));
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9754), iter__9751.call(null, cljs.core.chunk_rest.call(null, s__9752__$2)));
                   } else {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15302), null);
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9754), null);
                   }
                 } else {
-                  var vec__15306 = cljs.core.first.call(null, s__15300__$2);
-                  var k = cljs.core.nth.call(null, vec__15306, 0, null);
-                  var codes = cljs.core.nth.call(null, vec__15306, 1, null);
-                  return cljs.core.cons.call(null, React.DOM.tr(null, React.DOM.td(null, cljs.core.name.call(null, k)), cljs.core.apply.call(null, om.dom.td, null, om.core.build_all.call(null, ocr_visualizer.client2.error_code_link_view, cljs.core.map.call(null, function(vec__15306, k, codes, s__15300__$2, temp__4092__auto__) {
+                  var vec__9758 = cljs.core.first.call(null, s__9752__$2);
+                  var k = cljs.core.nth.call(null, vec__9758, 0, null);
+                  var codes = cljs.core.nth.call(null, vec__9758, 1, null);
+                  return cljs.core.cons.call(null, React.DOM.tr(null, React.DOM.td(null, cljs.core.name.call(null, k)), cljs.core.apply.call(null, om.dom.td, null, om.core.build_all.call(null, ocr_visualizer.client2.error_code_link_view, cljs.core.map.call(null, function(vec__9758, k, codes, s__9752__$2, temp__4092__auto__) {
                     return function(a) {
                       return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [a, self__.left, self__.right, self__.i], null);
                     };
-                  }(vec__15306, k, codes, s__15300__$2, temp__4092__auto__), codes))), React.DOM.td(null, [cljs.core.str(cljs.core.count.call(null, codes))].join(""))), iter__15299.call(null, cljs.core.rest.call(null, s__15300__$2)));
+                  }(vec__9758, k, codes, s__9752__$2, temp__4092__auto__), codes))), React.DOM.td(null, [cljs.core.str(cljs.core.count.call(null, codes))].join(""))), iter__9751.call(null, cljs.core.rest.call(null, s__9752__$2)));
                 }
               } else {
                 return null;
@@ -49567,140 +49567,140 @@ ocr_visualizer.client2.table_view = function table_view(p__15282, owner) {
         return iter__4160__auto__.call(null, categories);
       }())));
     };
-    ocr_visualizer.client2.t15296.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15298) {
+    ocr_visualizer.client2.t9748.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9750) {
       var self__ = this;
-      var _15298__$1 = this;
-      return self__.meta15297;
+      var _9750__$1 = this;
+      return self__.meta9749;
     };
-    ocr_visualizer.client2.t15296.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15298, meta15297__$1) {
+    ocr_visualizer.client2.t9748.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9750, meta9749__$1) {
       var self__ = this;
-      var _15298__$1 = this;
-      return new ocr_visualizer.client2.t15296(self__.i, self__.right, self__.left, self__.error_codes, self__.vec__15295, self__.owner, self__.p__15282, self__.table_view, meta15297__$1);
+      var _9750__$1 = this;
+      return new ocr_visualizer.client2.t9748(self__.i, self__.right, self__.left, self__.error_codes, self__.vec__9747, self__.owner, self__.p__9734, self__.table_view, meta9749__$1);
     };
-    ocr_visualizer.client2.__GT_t15296 = function __GT_t15296(i__$1, right__$1, left__$1, error_codes__$1, vec__15295__$1, owner__$1, p__15282__$1, table_view__$1, meta15297) {
-      return new ocr_visualizer.client2.t15296(i__$1, right__$1, left__$1, error_codes__$1, vec__15295__$1, owner__$1, p__15282__$1, table_view__$1, meta15297);
+    ocr_visualizer.client2.__GT_t9748 = function __GT_t9748(i__$1, right__$1, left__$1, error_codes__$1, vec__9747__$1, owner__$1, p__9734__$1, table_view__$1, meta9749) {
+      return new ocr_visualizer.client2.t9748(i__$1, right__$1, left__$1, error_codes__$1, vec__9747__$1, owner__$1, p__9734__$1, table_view__$1, meta9749);
     };
   }
-  return new ocr_visualizer.client2.t15296(i, right, left, error_codes, vec__15295, owner, p__15282, table_view, null);
+  return new ocr_visualizer.client2.t9748(i, right, left, error_codes, vec__9747, owner, p__9734, table_view, null);
 };
-ocr_visualizer.client2.page_summary_view = function page_summary_view(p__15308, owner) {
-  var vec__15314 = p__15308;
-  var map__15315 = cljs.core.nth.call(null, vec__15314, 0, null);
-  var map__15315__$1 = cljs.core.seq_QMARK_.call(null, map__15315) ? cljs.core.apply.call(null, cljs.core.hash_map, map__15315) : map__15315;
-  var right = cljs.core.get.call(null, map__15315__$1, new cljs.core.Keyword(null, "right", "right", 1122416014));
-  var left = cljs.core.get.call(null, map__15315__$1, new cljs.core.Keyword(null, "left", "left", 1017222009));
-  var error_codes = cljs.core.get.call(null, map__15315__$1, new cljs.core.Keyword(null, "error-codes", "error-codes", 3044098963));
-  var i = cljs.core.nth.call(null, vec__15314, 1, null);
-  if (typeof ocr_visualizer.client2.t15316 !== "undefined") {
+ocr_visualizer.client2.page_summary_view = function page_summary_view(p__9760, owner) {
+  var vec__9766 = p__9760;
+  var map__9767 = cljs.core.nth.call(null, vec__9766, 0, null);
+  var map__9767__$1 = cljs.core.seq_QMARK_.call(null, map__9767) ? cljs.core.apply.call(null, cljs.core.hash_map, map__9767) : map__9767;
+  var right = cljs.core.get.call(null, map__9767__$1, new cljs.core.Keyword(null, "right", "right", 1122416014));
+  var left = cljs.core.get.call(null, map__9767__$1, new cljs.core.Keyword(null, "left", "left", 1017222009));
+  var error_codes = cljs.core.get.call(null, map__9767__$1, new cljs.core.Keyword(null, "error-codes", "error-codes", 3044098963));
+  var i = cljs.core.nth.call(null, vec__9766, 1, null);
+  if (typeof ocr_visualizer.client2.t9768 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15316 = function(i, error_codes, left, right, map__15315, vec__15314, owner, p__15308, page_summary_view, meta15317) {
+    ocr_visualizer.client2.t9768 = function(i, error_codes, left, right, map__9767, vec__9766, owner, p__9760, page_summary_view, meta9769) {
       this.i = i;
       this.error_codes = error_codes;
       this.left = left;
       this.right = right;
-      this.map__15315 = map__15315;
-      this.vec__15314 = vec__15314;
+      this.map__9767 = map__9767;
+      this.vec__9766 = vec__9766;
       this.owner = owner;
-      this.p__15308 = p__15308;
+      this.p__9760 = p__9760;
       this.page_summary_view = page_summary_view;
-      this.meta15317 = meta15317;
+      this.meta9769 = meta9769;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15316.cljs$lang$type = true;
-    ocr_visualizer.client2.t15316.cljs$lang$ctorStr = "ocr-visualizer.client2/t15316";
-    ocr_visualizer.client2.t15316.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15316");
+    ocr_visualizer.client2.t9768.cljs$lang$type = true;
+    ocr_visualizer.client2.t9768.cljs$lang$ctorStr = "ocr-visualizer.client2/t9768";
+    ocr_visualizer.client2.t9768.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9768");
     };
-    ocr_visualizer.client2.t15316.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15316.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9768.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9768.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
       return React.DOM.div({"className":"summary-div"}, React.DOM.span(null, [cljs.core.str("Es gab "), cljs.core.str(cljs.core.count.call(null, self__.error_codes)), cljs.core.str(" Fehler mit einer Fehlerzahl von "), cljs.core.str(42)].join(""), om.core.build.call(null, ocr_visualizer.client2.table_view, new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [self__.error_codes, self__.left, self__.right, self__.i], null))));
     };
-    ocr_visualizer.client2.t15316.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15318) {
+    ocr_visualizer.client2.t9768.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9770) {
       var self__ = this;
-      var _15318__$1 = this;
-      return self__.meta15317;
+      var _9770__$1 = this;
+      return self__.meta9769;
     };
-    ocr_visualizer.client2.t15316.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15318, meta15317__$1) {
+    ocr_visualizer.client2.t9768.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9770, meta9769__$1) {
       var self__ = this;
-      var _15318__$1 = this;
-      return new ocr_visualizer.client2.t15316(self__.i, self__.error_codes, self__.left, self__.right, self__.map__15315, self__.vec__15314, self__.owner, self__.p__15308, self__.page_summary_view, meta15317__$1);
+      var _9770__$1 = this;
+      return new ocr_visualizer.client2.t9768(self__.i, self__.error_codes, self__.left, self__.right, self__.map__9767, self__.vec__9766, self__.owner, self__.p__9760, self__.page_summary_view, meta9769__$1);
     };
-    ocr_visualizer.client2.__GT_t15316 = function __GT_t15316(i__$1, error_codes__$1, left__$1, right__$1, map__15315__$2, vec__15314__$1, owner__$1, p__15308__$1, page_summary_view__$1, meta15317) {
-      return new ocr_visualizer.client2.t15316(i__$1, error_codes__$1, left__$1, right__$1, map__15315__$2, vec__15314__$1, owner__$1, p__15308__$1, page_summary_view__$1, meta15317);
+    ocr_visualizer.client2.__GT_t9768 = function __GT_t9768(i__$1, error_codes__$1, left__$1, right__$1, map__9767__$2, vec__9766__$1, owner__$1, p__9760__$1, page_summary_view__$1, meta9769) {
+      return new ocr_visualizer.client2.t9768(i__$1, error_codes__$1, left__$1, right__$1, map__9767__$2, vec__9766__$1, owner__$1, p__9760__$1, page_summary_view__$1, meta9769);
     };
   }
-  return new ocr_visualizer.client2.t15316(i, error_codes, left, right, map__15315__$1, vec__15314, owner, p__15308, page_summary_view, null);
+  return new ocr_visualizer.client2.t9768(i, error_codes, left, right, map__9767__$1, vec__9766, owner, p__9760, page_summary_view, null);
 };
-ocr_visualizer.client2.page_view = function page_view(p__15319, owner) {
-  var vec__15325 = p__15319;
-  var page = cljs.core.nth.call(null, vec__15325, 0, null);
-  var i = cljs.core.nth.call(null, vec__15325, 1, null);
-  if (typeof ocr_visualizer.client2.t15326 !== "undefined") {
+ocr_visualizer.client2.page_view = function page_view(p__9771, owner) {
+  var vec__9777 = p__9771;
+  var page = cljs.core.nth.call(null, vec__9777, 0, null);
+  var i = cljs.core.nth.call(null, vec__9777, 1, null);
+  if (typeof ocr_visualizer.client2.t9778 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15326 = function(i, page, vec__15325, owner, p__15319, page_view, meta15327) {
+    ocr_visualizer.client2.t9778 = function(i, page, vec__9777, owner, p__9771, page_view, meta9779) {
       this.i = i;
       this.page = page;
-      this.vec__15325 = vec__15325;
+      this.vec__9777 = vec__9777;
       this.owner = owner;
-      this.p__15319 = p__15319;
+      this.p__9771 = p__9771;
       this.page_view = page_view;
-      this.meta15327 = meta15327;
+      this.meta9779 = meta9779;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15326.cljs$lang$type = true;
-    ocr_visualizer.client2.t15326.cljs$lang$ctorStr = "ocr-visualizer.client2/t15326";
-    ocr_visualizer.client2.t15326.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15326");
+    ocr_visualizer.client2.t9778.cljs$lang$type = true;
+    ocr_visualizer.client2.t9778.cljs$lang$ctorStr = "ocr-visualizer.client2/t9778";
+    ocr_visualizer.client2.t9778.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9778");
     };
-    ocr_visualizer.client2.t15326.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15326.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9778.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9778.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
-      var vec__15329 = ocr_visualizer.client2.build_highlights.call(null, (new cljs.core.Keyword(null, "error-codes", "error-codes", 3044098963)).cljs$core$IFn$_invoke$arity$1(self__.page), (new cljs.core.Keyword(null, "left", "left", 1017222009)).cljs$core$IFn$_invoke$arity$1(self__.page), (new cljs.core.Keyword(null, "right", "right", 1122416014)).cljs$core$IFn$_invoke$arity$1(self__.page), self__.i);
-      var hl = cljs.core.nth.call(null, vec__15329, 0, null);
-      var hr = cljs.core.nth.call(null, vec__15329, 1, null);
+      var vec__9781 = ocr_visualizer.client2.build_highlights.call(null, (new cljs.core.Keyword(null, "error-codes", "error-codes", 3044098963)).cljs$core$IFn$_invoke$arity$1(self__.page), (new cljs.core.Keyword(null, "left", "left", 1017222009)).cljs$core$IFn$_invoke$arity$1(self__.page), (new cljs.core.Keyword(null, "right", "right", 1122416014)).cljs$core$IFn$_invoke$arity$1(self__.page), self__.i);
+      var hl = cljs.core.nth.call(null, vec__9781, 0, null);
+      var hr = cljs.core.nth.call(null, vec__9781, 1, null);
       var _ = cljs.core.prn.call(null, "hl hr ", hl, hr);
       return React.DOM.div({"className":"wrap"}, om.core.build.call(null, ocr_visualizer.client2.page_summary_view, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [self__.page, self__.i], null)), cljs.core.apply.call(null, om.dom.div, {"id":[cljs.core.str("left-"), cljs.core.str(self__.i)].join(""), "className":"left"}, om.core.build_all.call(null, ocr_visualizer.client2.highlight_view, hl)), cljs.core.apply.call(null, om.dom.div, {"id":[cljs.core.str("right-"), 
       cljs.core.str(self__.i)].join(""), "className":"right"}, om.core.build_all.call(null, ocr_visualizer.client2.highlight_view, hr)));
     };
-    ocr_visualizer.client2.t15326.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15328) {
+    ocr_visualizer.client2.t9778.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9780) {
       var self__ = this;
-      var _15328__$1 = this;
-      return self__.meta15327;
+      var _9780__$1 = this;
+      return self__.meta9779;
     };
-    ocr_visualizer.client2.t15326.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15328, meta15327__$1) {
+    ocr_visualizer.client2.t9778.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9780, meta9779__$1) {
       var self__ = this;
-      var _15328__$1 = this;
-      return new ocr_visualizer.client2.t15326(self__.i, self__.page, self__.vec__15325, self__.owner, self__.p__15319, self__.page_view, meta15327__$1);
+      var _9780__$1 = this;
+      return new ocr_visualizer.client2.t9778(self__.i, self__.page, self__.vec__9777, self__.owner, self__.p__9771, self__.page_view, meta9779__$1);
     };
-    ocr_visualizer.client2.__GT_t15326 = function __GT_t15326(i__$1, page__$1, vec__15325__$1, owner__$1, p__15319__$1, page_view__$1, meta15327) {
-      return new ocr_visualizer.client2.t15326(i__$1, page__$1, vec__15325__$1, owner__$1, p__15319__$1, page_view__$1, meta15327);
+    ocr_visualizer.client2.__GT_t9778 = function __GT_t9778(i__$1, page__$1, vec__9777__$1, owner__$1, p__9771__$1, page_view__$1, meta9779) {
+      return new ocr_visualizer.client2.t9778(i__$1, page__$1, vec__9777__$1, owner__$1, p__9771__$1, page_view__$1, meta9779);
     };
   }
-  return new ocr_visualizer.client2.t15326(i, page, vec__15325, owner, p__15319, page_view, null);
+  return new ocr_visualizer.client2.t9778(i, page, vec__9777, owner, p__9771, page_view, null);
 };
 ocr_visualizer.client2.pages_view = function pages_view(pages, owner) {
-  if (typeof ocr_visualizer.client2.t15333 !== "undefined") {
+  if (typeof ocr_visualizer.client2.t9785 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15333 = function(owner, pages, pages_view, meta15334) {
+    ocr_visualizer.client2.t9785 = function(owner, pages, pages_view, meta9786) {
       this.owner = owner;
       this.pages = pages;
       this.pages_view = pages_view;
-      this.meta15334 = meta15334;
+      this.meta9786 = meta9786;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15333.cljs$lang$type = true;
-    ocr_visualizer.client2.t15333.cljs$lang$ctorStr = "ocr-visualizer.client2/t15333";
-    ocr_visualizer.client2.t15333.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15333");
+    ocr_visualizer.client2.t9785.cljs$lang$type = true;
+    ocr_visualizer.client2.t9785.cljs$lang$ctorStr = "ocr-visualizer.client2/t9785";
+    ocr_visualizer.client2.t9785.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9785");
     };
-    ocr_visualizer.client2.t15333.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15333.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9785.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9785.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
       cljs.core.prn.call(null, "hi there");
@@ -49708,21 +49708,21 @@ ocr_visualizer.client2.pages_view = function pages_view(pages, owner) {
         return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [a, b], null);
       }, self__.pages, cljs.core.range.call(null))));
     };
-    ocr_visualizer.client2.t15333.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15335) {
+    ocr_visualizer.client2.t9785.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9787) {
       var self__ = this;
-      var _15335__$1 = this;
-      return self__.meta15334;
+      var _9787__$1 = this;
+      return self__.meta9786;
     };
-    ocr_visualizer.client2.t15333.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15335, meta15334__$1) {
+    ocr_visualizer.client2.t9785.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9787, meta9786__$1) {
       var self__ = this;
-      var _15335__$1 = this;
-      return new ocr_visualizer.client2.t15333(self__.owner, self__.pages, self__.pages_view, meta15334__$1);
+      var _9787__$1 = this;
+      return new ocr_visualizer.client2.t9785(self__.owner, self__.pages, self__.pages_view, meta9786__$1);
     };
-    ocr_visualizer.client2.__GT_t15333 = function __GT_t15333(owner__$1, pages__$1, pages_view__$1, meta15334) {
-      return new ocr_visualizer.client2.t15333(owner__$1, pages__$1, pages_view__$1, meta15334);
+    ocr_visualizer.client2.__GT_t9785 = function __GT_t9785(owner__$1, pages__$1, pages_view__$1, meta9786) {
+      return new ocr_visualizer.client2.t9785(owner__$1, pages__$1, pages_view__$1, meta9786);
     };
   }
-  return new ocr_visualizer.client2.t15333(owner, pages, pages_view, null);
+  return new ocr_visualizer.client2.t9785(owner, pages, pages_view, null);
 };
 ocr_visualizer.client2.load_or_remove_page = function load_or_remove_page(load_chan, page, id) {
   return cljs.core.async.put_BANG_.call(null, load_chan, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [page, id], null));
@@ -49732,69 +49732,69 @@ ocr_visualizer.client2.handle_change = function handle_change(load_chan, selecte
   var temp__4090__auto__ = cljs.core.some.call(null, cljs.core.PersistentHashSet.fromArray([page], true), cljs.core.map.call(null, new cljs.core.Keyword(null, "name", "name", 1017277949), cljs.core.get.call(null, cljs.core.deref.call(null, ocr_visualizer.client2.app_state), new cljs.core.Keyword(null, "pages", "pages", 1120330550))));
   if (cljs.core.truth_(temp__4090__auto__)) {
     var p = temp__4090__auto__;
-    return cljs.core.swap_BANG_.call(null, ocr_visualizer.client2.app_state, cljs.core.update_in, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "pages", "pages", 1120330550)], null), function(p1__15336_SHARP_) {
-      return cljs.core.remove.call(null, cljs.core.comp.call(null, cljs.core.PersistentHashSet.fromArray([page], true), new cljs.core.Keyword(null, "name", "name", 1017277949)), p1__15336_SHARP_);
+    return cljs.core.swap_BANG_.call(null, ocr_visualizer.client2.app_state, cljs.core.update_in, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "pages", "pages", 1120330550)], null), function(p1__9788_SHARP_) {
+      return cljs.core.remove.call(null, cljs.core.comp.call(null, cljs.core.PersistentHashSet.fromArray([page], true), new cljs.core.Keyword(null, "name", "name", 1017277949)), p1__9788_SHARP_);
     });
   } else {
     return ajax.core.GET.call(null, [cljs.core.str("/get-site/"), cljs.core.str(i)].join(""), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "handler", "handler", 1706707644), function(data) {
-      return cljs.core.swap_BANG_.call(null, ocr_visualizer.client2.app_state, cljs.core.update_in, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "pages", "pages", 1120330550)], null), function(p1__15337_SHARP_) {
-        return cljs.core.concat.call(null, p1__15337_SHARP_, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.assoc.call(null, data, new cljs.core.Keyword(null, "name", "name", 1017277949), page)], null));
+      return cljs.core.swap_BANG_.call(null, ocr_visualizer.client2.app_state, cljs.core.update_in, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "pages", "pages", 1120330550)], null), function(p1__9789_SHARP_) {
+        return cljs.core.concat.call(null, p1__9789_SHARP_, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.assoc.call(null, data, new cljs.core.Keyword(null, "name", "name", 1017277949), page)], null));
       });
     }], null));
   }
 };
 ocr_visualizer.client2.page_list_view = function page_list_view(available_pages, owner) {
-  if (typeof ocr_visualizer.client2.t15351 !== "undefined") {
+  if (typeof ocr_visualizer.client2.t9803 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15351 = function(owner, available_pages, page_list_view, meta15352) {
+    ocr_visualizer.client2.t9803 = function(owner, available_pages, page_list_view, meta9804) {
       this.owner = owner;
       this.available_pages = available_pages;
       this.page_list_view = page_list_view;
-      this.meta15352 = meta15352;
+      this.meta9804 = meta9804;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15351.cljs$lang$type = true;
-    ocr_visualizer.client2.t15351.cljs$lang$ctorStr = "ocr-visualizer.client2/t15351";
-    ocr_visualizer.client2.t15351.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15351");
+    ocr_visualizer.client2.t9803.cljs$lang$type = true;
+    ocr_visualizer.client2.t9803.cljs$lang$ctorStr = "ocr-visualizer.client2/t9803";
+    ocr_visualizer.client2.t9803.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9803");
     };
-    ocr_visualizer.client2.t15351.prototype.om$core$IRenderState$ = true;
-    ocr_visualizer.client2.t15351.prototype.om$core$IRenderState$render_state$arity$2 = function(this$, p__15354) {
+    ocr_visualizer.client2.t9803.prototype.om$core$IRenderState$ = true;
+    ocr_visualizer.client2.t9803.prototype.om$core$IRenderState$render_state$arity$2 = function(this$, p__9806) {
       var self__ = this;
-      var map__15355 = p__15354;
-      var map__15355__$1 = cljs.core.seq_QMARK_.call(null, map__15355) ? cljs.core.apply.call(null, cljs.core.hash_map, map__15355) : map__15355;
-      var selected_idx = cljs.core.get.call(null, map__15355__$1, new cljs.core.Keyword(null, "selected-idx", "selected-idx", 3553242109));
-      var load_chan = cljs.core.get.call(null, map__15355__$1, new cljs.core.Keyword(null, "load-chan", "load-chan", 2356806475));
+      var map__9807 = p__9806;
+      var map__9807__$1 = cljs.core.seq_QMARK_.call(null, map__9807) ? cljs.core.apply.call(null, cljs.core.hash_map, map__9807) : map__9807;
+      var selected_idx = cljs.core.get.call(null, map__9807__$1, new cljs.core.Keyword(null, "selected-idx", "selected-idx", 3553242109));
+      var load_chan = cljs.core.get.call(null, map__9807__$1, new cljs.core.Keyword(null, "load-chan", "load-chan", 2356806475));
       var this$__$1 = this;
       cljs.core.prn.call(null, "available-pages ", self__.available_pages, load_chan);
       return cljs.core.apply.call(null, om.dom.ul, null, function() {
-        var iter__4160__auto__ = function iter__15356(s__15357) {
+        var iter__4160__auto__ = function iter__9808(s__9809) {
           return new cljs.core.LazySeq(null, function() {
-            var s__15357__$1 = s__15357;
+            var s__9809__$1 = s__9809;
             while (true) {
-              var temp__4092__auto__ = cljs.core.seq.call(null, s__15357__$1);
+              var temp__4092__auto__ = cljs.core.seq.call(null, s__9809__$1);
               if (temp__4092__auto__) {
-                var s__15357__$2 = temp__4092__auto__;
-                if (cljs.core.chunked_seq_QMARK_.call(null, s__15357__$2)) {
-                  var c__4158__auto__ = cljs.core.chunk_first.call(null, s__15357__$2);
+                var s__9809__$2 = temp__4092__auto__;
+                if (cljs.core.chunked_seq_QMARK_.call(null, s__9809__$2)) {
+                  var c__4158__auto__ = cljs.core.chunk_first.call(null, s__9809__$2);
                   var size__4159__auto__ = cljs.core.count.call(null, c__4158__auto__);
-                  var b__15359 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
+                  var b__9811 = cljs.core.chunk_buffer.call(null, size__4159__auto__);
                   if (function() {
-                    var i__15358 = 0;
+                    var i__9810 = 0;
                     while (true) {
-                      if (i__15358 < size__4159__auto__) {
-                        var vec__15362 = cljs.core._nth.call(null, c__4158__auto__, i__15358);
-                        var page = cljs.core.nth.call(null, vec__15362, 0, null);
-                        var i = cljs.core.nth.call(null, vec__15362, 1, null);
-                        cljs.core.chunk_append.call(null, b__15359, React.DOM.li(null, om.dom.input.call(null, {"onClick":function(i__15358, vec__15362, page, i, c__4158__auto__, size__4159__auto__, b__15359, s__15357__$2, temp__4092__auto__) {
+                      if (i__9810 < size__4159__auto__) {
+                        var vec__9814 = cljs.core._nth.call(null, c__4158__auto__, i__9810);
+                        var page = cljs.core.nth.call(null, vec__9814, 0, null);
+                        var i = cljs.core.nth.call(null, vec__9814, 1, null);
+                        cljs.core.chunk_append.call(null, b__9811, React.DOM.li(null, om.dom.input.call(null, {"onClick":function(i__9810, vec__9814, page, i, c__4158__auto__, size__4159__auto__, b__9811, s__9809__$2, temp__4092__auto__) {
                           return function() {
                             cljs.core.prn.call(null, "called ", load_chan, page, i);
                             return ocr_visualizer.client2.handle_change.call(null, load_chan, selected_idx, page, i);
                           };
-                        }(i__15358, vec__15362, page, i, c__4158__auto__, size__4159__auto__, b__15359, s__15357__$2, temp__4092__auto__), "type":"checkbox"}, page)));
-                        var G__15364 = i__15358 + 1;
-                        i__15358 = G__15364;
+                        }(i__9810, vec__9814, page, i, c__4158__auto__, size__4159__auto__, b__9811, s__9809__$2, temp__4092__auto__), "type":"checkbox"}, page)));
+                        var G__9816 = i__9810 + 1;
+                        i__9810 = G__9816;
                         continue;
                       } else {
                         return true;
@@ -49802,20 +49802,20 @@ ocr_visualizer.client2.page_list_view = function page_list_view(available_pages,
                       break;
                     }
                   }()) {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15359), iter__15356.call(null, cljs.core.chunk_rest.call(null, s__15357__$2)));
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9811), iter__9808.call(null, cljs.core.chunk_rest.call(null, s__9809__$2)));
                   } else {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15359), null);
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__9811), null);
                   }
                 } else {
-                  var vec__15363 = cljs.core.first.call(null, s__15357__$2);
-                  var page = cljs.core.nth.call(null, vec__15363, 0, null);
-                  var i = cljs.core.nth.call(null, vec__15363, 1, null);
-                  return cljs.core.cons.call(null, React.DOM.li(null, om.dom.input.call(null, {"onClick":function(vec__15363, page, i, s__15357__$2, temp__4092__auto__) {
+                  var vec__9815 = cljs.core.first.call(null, s__9809__$2);
+                  var page = cljs.core.nth.call(null, vec__9815, 0, null);
+                  var i = cljs.core.nth.call(null, vec__9815, 1, null);
+                  return cljs.core.cons.call(null, React.DOM.li(null, om.dom.input.call(null, {"onClick":function(vec__9815, page, i, s__9809__$2, temp__4092__auto__) {
                     return function() {
                       cljs.core.prn.call(null, "called ", load_chan, page, i);
                       return ocr_visualizer.client2.handle_change.call(null, load_chan, selected_idx, page, i);
                     };
-                  }(vec__15363, page, i, s__15357__$2, temp__4092__auto__), "type":"checkbox"}, page)), iter__15356.call(null, cljs.core.rest.call(null, s__15357__$2)));
+                  }(vec__9815, page, i, s__9809__$2, temp__4092__auto__), "type":"checkbox"}, page)), iter__9808.call(null, cljs.core.rest.call(null, s__9809__$2)));
                 }
               } else {
                 return null;
@@ -49829,65 +49829,65 @@ ocr_visualizer.client2.page_list_view = function page_list_view(available_pages,
         }, self__.available_pages, cljs.core.range.call(null)));
       }());
     };
-    ocr_visualizer.client2.t15351.prototype.om$core$IInitState$ = true;
-    ocr_visualizer.client2.t15351.prototype.om$core$IInitState$init_state$arity$1 = function(_) {
+    ocr_visualizer.client2.t9803.prototype.om$core$IInitState$ = true;
+    ocr_visualizer.client2.t9803.prototype.om$core$IInitState$init_state$arity$1 = function(_) {
       var self__ = this;
       var ___$1 = this;
       return new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "load-chan", "load-chan", 2356806475), cljs.core.async.chan.call(null), new cljs.core.Keyword(null, "selected-idx", "selected-idx", 3553242109), cljs.core.PersistentVector.EMPTY], null);
     };
-    ocr_visualizer.client2.t15351.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15353) {
+    ocr_visualizer.client2.t9803.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9805) {
       var self__ = this;
-      var _15353__$1 = this;
-      return self__.meta15352;
+      var _9805__$1 = this;
+      return self__.meta9804;
     };
-    ocr_visualizer.client2.t15351.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15353, meta15352__$1) {
+    ocr_visualizer.client2.t9803.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9805, meta9804__$1) {
       var self__ = this;
-      var _15353__$1 = this;
-      return new ocr_visualizer.client2.t15351(self__.owner, self__.available_pages, self__.page_list_view, meta15352__$1);
+      var _9805__$1 = this;
+      return new ocr_visualizer.client2.t9803(self__.owner, self__.available_pages, self__.page_list_view, meta9804__$1);
     };
-    ocr_visualizer.client2.__GT_t15351 = function __GT_t15351(owner__$1, available_pages__$1, page_list_view__$1, meta15352) {
-      return new ocr_visualizer.client2.t15351(owner__$1, available_pages__$1, page_list_view__$1, meta15352);
+    ocr_visualizer.client2.__GT_t9803 = function __GT_t9803(owner__$1, available_pages__$1, page_list_view__$1, meta9804) {
+      return new ocr_visualizer.client2.t9803(owner__$1, available_pages__$1, page_list_view__$1, meta9804);
     };
   }
-  return new ocr_visualizer.client2.t15351(owner, available_pages, page_list_view, null);
+  return new ocr_visualizer.client2.t9803(owner, available_pages, page_list_view, null);
 };
 ocr_visualizer.client2.page_select_view = function page_select_view(app, owner) {
-  if (typeof ocr_visualizer.client2.t15368 !== "undefined") {
+  if (typeof ocr_visualizer.client2.t9820 !== "undefined") {
   } else {
-    ocr_visualizer.client2.t15368 = function(owner, app, page_select_view, meta15369) {
+    ocr_visualizer.client2.t9820 = function(owner, app, page_select_view, meta9821) {
       this.owner = owner;
       this.app = app;
       this.page_select_view = page_select_view;
-      this.meta15369 = meta15369;
+      this.meta9821 = meta9821;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216;
     };
-    ocr_visualizer.client2.t15368.cljs$lang$type = true;
-    ocr_visualizer.client2.t15368.cljs$lang$ctorStr = "ocr-visualizer.client2/t15368";
-    ocr_visualizer.client2.t15368.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
-      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t15368");
+    ocr_visualizer.client2.t9820.cljs$lang$type = true;
+    ocr_visualizer.client2.t9820.cljs$lang$ctorStr = "ocr-visualizer.client2/t9820";
+    ocr_visualizer.client2.t9820.cljs$lang$ctorPrWriter = function(this__4010__auto__, writer__4011__auto__, opt__4012__auto__) {
+      return cljs.core._write.call(null, writer__4011__auto__, "ocr-visualizer.client2/t9820");
     };
-    ocr_visualizer.client2.t15368.prototype.om$core$IRender$ = true;
-    ocr_visualizer.client2.t15368.prototype.om$core$IRender$render$arity$1 = function(this$) {
+    ocr_visualizer.client2.t9820.prototype.om$core$IRender$ = true;
+    ocr_visualizer.client2.t9820.prototype.om$core$IRender$render$arity$1 = function(this$) {
       var self__ = this;
       var this$__$1 = this;
       return React.DOM.div(null, React.DOM.div(null, "Lade Seiten: "), om.core.build.call(null, ocr_visualizer.client2.page_list_view, (new cljs.core.Keyword(null, "available-pages", "available-pages", 4626810674)).cljs$core$IFn$_invoke$arity$1(self__.app)));
     };
-    ocr_visualizer.client2.t15368.prototype.cljs$core$IMeta$_meta$arity$1 = function(_15370) {
+    ocr_visualizer.client2.t9820.prototype.cljs$core$IMeta$_meta$arity$1 = function(_9822) {
       var self__ = this;
-      var _15370__$1 = this;
-      return self__.meta15369;
+      var _9822__$1 = this;
+      return self__.meta9821;
     };
-    ocr_visualizer.client2.t15368.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_15370, meta15369__$1) {
+    ocr_visualizer.client2.t9820.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_9822, meta9821__$1) {
       var self__ = this;
-      var _15370__$1 = this;
-      return new ocr_visualizer.client2.t15368(self__.owner, self__.app, self__.page_select_view, meta15369__$1);
+      var _9822__$1 = this;
+      return new ocr_visualizer.client2.t9820(self__.owner, self__.app, self__.page_select_view, meta9821__$1);
     };
-    ocr_visualizer.client2.__GT_t15368 = function __GT_t15368(owner__$1, app__$1, page_select_view__$1, meta15369) {
-      return new ocr_visualizer.client2.t15368(owner__$1, app__$1, page_select_view__$1, meta15369);
+    ocr_visualizer.client2.__GT_t9820 = function __GT_t9820(owner__$1, app__$1, page_select_view__$1, meta9821) {
+      return new ocr_visualizer.client2.t9820(owner__$1, app__$1, page_select_view__$1, meta9821);
     };
   }
-  return new ocr_visualizer.client2.t15368(owner, app, page_select_view, null);
+  return new ocr_visualizer.client2.t9820(owner, app, page_select_view, null);
 };
 ocr_visualizer.client2.init = function init() {
   ajax.core.GET.call(null, "/page-list", new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "handler", "handler", 1706707644), function(data) {
@@ -49899,6 +49899,5 @@ ocr_visualizer.client2.init = function init() {
 };
 window.onload = function() {
   cljs.core.prn.call(null, "hi");
-  ocr_visualizer.client2.init.call(null);
-  return ocr_visualizer.client2.o;
+  return ocr_visualizer.client2.init.call(null);
 };

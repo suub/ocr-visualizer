@@ -128,10 +128,10 @@
 (defn build-substitution-highlight [[_ [l r] :as error]]
   [{:type :substitution
    :error error
-   :position [l (inc l) "blue"]}
+   :position [l (inc l) "#00FFFF"]}
    {:type :substitution
     :error error
-    :position [r (inc r) "blue"]}])
+    :position [r (inc r) "#00FFFF"]}])
 
 (defmulti get-position (fn [a b] a))
 
@@ -164,7 +164,7 @@
   #_(prn "make-highlight " a b type page-index)
   (let [positionlr (get-position type error)
         textlr (mapv get-text positionlr [a b])
-        color (get {:substitution "blue" :insertion "green" :deletion "red"
+        color (get {:substitution "#00FFFF" :insertion "green" :deletion "red"
                     :one-to-many "yellow" :many-to-one "orange"} type)]
     (mapv (fn [pos text lr]
             {:type type
@@ -218,7 +218,7 @@
   (let [errors (map #(reader/read-string (d/html (d/by-id (str "errors-" %)))) r)
         hl (map (fn [errors]
                   (for [e errors]
-                    (light e))) errors)]
+                    (highlight e))) errors)]
     (reset! highlights-left (map (fn [hl] (distinct (map first hl))) hl))
     (reset! highlights-right (map (fn [hl] (distinct (map second hl))) hl))))
 
@@ -240,7 +240,7 @@
                       "<td>" (count positions) "</td>"
                       "<td>" positions "</td>"
                       "<td>" (-> [code (first positions)]
-                                 light
+                                 highlight
                                  first
                                  (nth 2))
                       "</tr>"))
@@ -417,5 +417,5 @@
 ;;         (repl-connect)
          ;;        (visualize-errors)
          (prn "hi")
-         (init)o
+         (init)
          ))
