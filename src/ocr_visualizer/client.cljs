@@ -14,13 +14,13 @@
 
 (enable-console-print!)
 
+(+ 1 2 3)
+
 (def dev-mode true)
 
 (defn repl-connect []
  (when dev-mode
    (repl/connect "http://localhost:9000/repl")))
-
-
 
 
 (defn get-errors []
@@ -419,3 +419,21 @@
          (prn "hi")
          (init)
          ))
+(def ec (-> @app-state :pages first :error-codes))
+
+(defn exclude [code]
+  false)
+
+(defn filter-codes [codes]
+  (remove exclude codes))
+
+
+
+(reset! app-state (assoc @app-state :pages [(assoc (first (:pages @app-state)) :error-codes
+                                              (filter-codes ec))]))
+
+
+
+
+
+
