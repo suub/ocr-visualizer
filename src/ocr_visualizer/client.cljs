@@ -279,10 +279,10 @@
     (render [this]
          (if (string? highlight)
            (do #_(prn "string " (dom/span nil highlight))
-           (dom/span nil highlight))
+           (dom/span nil (.replace highlight #"\r?\n" "\\n")))
            (dom/span #js {:style #js {:backgroundColor (:color highlight)}
                           :id (:id highlight)}
-                     (:text highlight))))))
+                     (.replace (:text highlight) #"\r?\n" "\\n"))))))
 
 
 (defn goto-and-mark [error-code i]
@@ -334,9 +334,7 @@
     om/IRender
     (render [this]
        (dom/div #js {:className "summary-div"}
-              (dom/span nil (str "Es gab " (count error-codes)
-                                 " Fehler mit einer Fehlerzahl von " 42)
-              (om/build table-view [error-codes left right i]))))))
+               (om/build table-view [error-codes left right i])))))
 
 
 (defn page-view [[page i] owner]
@@ -367,7 +365,7 @@
   (prn "handle-change" load-chan selected-idx page i)
   (if-let [p (some #{page} (map :name (get @app-state :pages)))]
     (swap! app-state update-in [:pages] #(remove (comp #{page} :name) %))
-    (GET (str "/get-site/" i)
+    (GET (str "/get-site/" i "?bd=" (:base-directory  @app-state))
          {:handler (fn [data]
                      (swap! app-state update-in [:pages] #(concat % [(assoc data :name page)])))})
   ))
@@ -391,16 +389,38 @@
                                      (handle-change load-chan selected-idx
                                                   page i)))} page)))))))
 
+(defn get-page-list [app-state]
+  (prn "get-page-list " (:base-directory @app-state))
+  (GET (str "/page-list?bd=" (:base-directory @app-state))
+    {:handler (fn [data]
+                (prn "get-page-list callback called " data)
+                (swap! app-state assoc :available-pages data))}))
 
 (defn page-select-view [app owner]
   (reify
     om/IRender
     (render [this]
-      (dom/div nil
-        (dom/div nil "Lade Seiten: ")
-        (om/build page-list-view (:available-pages app))))))
+      (if-not (seq (:available-pages app))
+        (dom/div nil
+                 (dom/input #js {:type "text"
+                                 :size "300"
+                                 :id "base-directory-input"
+                                 :name "base-directory-input"
+                                 :onClick
+                                 (fn []
+                                   (do (prn "file-clicked")))})
+                 (dom/input #js {:value "set base directory"
+                                 :type "button"
+                                  :onClick (fn [] (prn "button clicked")
+                                             (let [bd-input (d/by-id "base-directory-input")]
+                                               (swap! app-state assoc :base-directory
+                                                      (d/value bd-input))
+                                               (get-page-list app-state)))}))
+        (dom/div nil
+                 (dom/div nil "Lade Seiten: ")
+                 (om/build page-list-view (:available-pages app)))))))
 (defn init []
-  (GET "/page-list" {:handler (fn [data] (swap! app-state assoc :available-pages data))})
+  #_(GET "/page-list" {:handler (fn [data] (swap! app-state assoc :available-pages data))})
   (om/root
    (fn [app owner]
      ;;(om/build page-view (first (:pages app))))
@@ -419,18 +439,9 @@
          (prn "hi")
          (init)
          ))
-(def ec (-> @app-state :pages first :error-codes))
-
-(defn exclude [code]
-  false)
-
-(defn filter-codes [codes]
-  (remove exclude codes))
 
 
 
-(reset! app-state (assoc @app-state :pages [(assoc (first (:pages @app-state)) :error-codes
-                                              (filter-codes ec))]))
 
 
 

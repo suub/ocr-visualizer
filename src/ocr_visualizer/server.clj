@@ -3,6 +3,7 @@
         [ring.middleware.file-info :only [wrap-file-info]]
         [ring.adapter.jetty :as jetty]
         [compojure.core]
+        [compojure.handler]
         [clojure.core.matrix]
         [ocr-visualizer.error-count])
   (:require [compojure.route :as route]
@@ -10,46 +11,25 @@
             [clojure.java.io :refer :all])
   (:gen-class))
 
-
-(defn fill-page [a b edits num]
-  (l/at (l/parse (file "resources/public/page.html"))
-        (l/id= "table") (l/id (str "table-" num))
-        (l/id= "left") (comp (l/content (l/unescaped (slurp  a)))
-                             (l/id (str "left-" num)))
-        (l/id= "right") (comp (l/content (l/unescaped (slurp  b)))
-                              (l/id (str "right-" num)))
-        (l/id= "errors") (comp (l/content (l/unescaped (slurp  edits)))
-                               (l/id (str "errors-" num)))))
-
 (defn get-files-sorted [dir]
   (->> (file-seq (file dir))
        rest
        (sort-by #(.getName %))))
 
-
-
 (defn index-site []
-  (l/document (l/parse (file "resources/public/indey.html"))
-              (l/id= "pages")
-              (fn [_]
-                (map fill-page
-                     (get-files-sorted "resources/public/ground-truth")
-                     (get-files-sorted "resources/public/ocr-results")
-                     (get-files-sorted "resources/public/edits")
-                     (range)))))
-
-
+  (l/document (l/parse (file "resources/public/indey.html"))))
 
 (defroutes handler
   (GET "/index.html" [] (index-site))
-  (GET "/page-list" []
+  (GET "/page-list" [bd]
        (pr-str (map (memfn getName)
-                    (get-files-sorted "resources/public/edits"))))
-  (GET "/get-site/:id" [id]
+                    (get-files-sorted (file bd "edits")))))
+  (GET "/get-site/:id" [id bd]
+       (prn "id " id "bd " bd)
        (let [id (Integer/parseInt id)
-             ocr (nth (get-files-sorted "resources/public/ocr-results") id)
-             gt (nth (get-files-sorted "resources/public/ground-truth") id)
-             error-codes (nth (get-files-sorted "resources/public/edits") id)]
+             ocr (nth (get-files-sorted (file bd "ocr-results")) id)
+             gt (nth (get-files-sorted (file bd "ground-truth")) id)
+             error-codes (nth (get-files-sorted (file bd "edits")) id)]
          (pr-str {:left (slurp gt)
                   :right (slurp ocr)
                   :error-codes (read-string (slurp error-codes))})))
@@ -67,8 +47,9 @@
 ;setting up a simple resource handler for ring
 (def app (-> #'handler
              (wrap-resource "public")
-             (wrap-file-info)
-             (wrap-index)))
+             wrap-file-info
+             wrap-index
+             site))
   
 
 
