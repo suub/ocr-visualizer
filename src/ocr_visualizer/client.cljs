@@ -8,130 +8,6 @@
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :as string]
             [clojure.browser.repl :as repl]))
-;;************************************************
-;; Dev stuff
-;;************************************************
-
-(enable-console-print!)
-
-(+ 1 2 3)
-
-(def dev-mode true)
-
-(defn repl-connect []
- (when dev-mode
-   (repl/connect "http://localhost:9000/repl")))
-
-
-(defn get-errors []
-  (-> (d/by-id "errors") d/text reader/read-string))
-
-(defn get-left []
-  (-> (d/by-id "left") d/html))
-
-(defn get-right []
-  (-> (d/by-id "right") d/html))
-
-
-
-
-;;highlights are of the form start end color
-(def highlights-left (atom []))
-
-;;************************************************
-;; Dev stuff
-;;************************************************
-(def dev-mode true)
-
-(defn repl-connect []
- (when dev-mode
-   (repl/connect "http://localhost:9000/repl")))
-
-
-
-
-(defn get-errors []
-  (-> (d/by-id "errors") d/text reader/read-string))
-
-(defn get-left []
-  (-> (d/by-id "left") d/html))
-
-(defn get-right []
-  (-> (d/by-id "right") d/html))
-
-
-;;highlights are of the form start end color
-(def highlights-left (atom []))
-(def highlights-right(atom []))
-(def text-left (atom []))
-(def text-right (atom []))
-
-(defn highlight
-  ([text] (highlight text "blue"))
-  ([text color]
-     (str "<span style=\"background-color:" color "\">" (if (= text "")
-                                                          "|" text) "</span>")))
-
-
-
-(defn save-texts [r]
-  (reset! text-left (map #(d/html (d/by-id (str "left-" %))) r))
-  (reset! text-right (map #(d/html (d/by-id (str "right-" %))) r)))
-
-
-(def offset 43)
-
-(defn highlight-text [text positions]
-  (apply str
-         (-> (reduce (fn [[pos substrings] [nstart nend color]]
-                       [nend (conj substrings (.substring text pos nstart)
-                                   (highlight (.substring text nstart nend)
-                                              color))])
-                     [0 []] positions)
-             second
-             (conj (.substring text (second (last positions)) (count text))))))
-
-
-(defn build-insertion-highlight [[_ [l r] :as error]]
-  [{:type :insertion
-    :error error
-    :position [l l "green"]}
-   {:type :insertion
-    :error error
-    :position [r (inc r) "green"]}])
-
-(defn build-deletion-highlight [[_ [l r] :as error]]
-  [{:type :deletion
-    :error error
-    :position [l (inc l) "red"]}
-   {:type :deletion
-    :error error
-    :position [r r "red"]}])
-
-
-(defn build-one-to-many-highlight [[_ [ls rs] [le re] :as error]]
-  [{:type :one-to-many
-   :error error
-   :position [ls le "yellow"]}
-   {:type :one-to-many
-    :error error
-    :position [rs (inc re) "yellow"]}])
-
-(defn build-many-to-one-highlight [[_ [ls rs] [le re] :as error]]
-  [{:type :many-to-one
-   :error error
-   :position [ls (inc le) "orange"]}
-   {:type :many-to-one
-    :error error
-    :position [rs re "orange"]}])
-
-(defn build-substitution-highlight [[_ [l r] :as error]]
-  [{:type :substitution
-   :error error
-   :position [l (inc l) "#00FFFF"]}
-   {:type :substitution
-    :error error
-    :position [r (inc r) "#00FFFF"]}])
 
 (defmulti get-position (fn [a b] a))
 
@@ -154,8 +30,7 @@
 (def empty-sign "|")
 
 (defn get-text [[start end] text]
-  #_(prn "get-text " start end text)
-  (let [t (.substring text start end)]
+    (let [t (.substring text start end)]
     (if-not (= t "")
       t
       empty-sign)))
@@ -183,84 +58,20 @@
       (= a 7)  :many-to-one
       :else    :substitution)))
 
-(get-type [[1 1] [3 3]])
-
 (defn build-highlight [error texta textb page-index]
   (let [type (get-type error)]
     (make-highlight error type texta textb page-index)))
 
-(defn highlight-text [text positions]
-  (apply str
-         (-> (reduce (fn [[pos substrings] [nstart nend color]]
-                       [nend (conj substrings (.substring text pos nstart)
-                                   (highlight (.substring text nstart nend)
-                                              color))])
-                     [0 []] positions)
-             second
-             (conj (.substring text (second (last positions)) (count text))))))
-
 
 (defn build-highlights [errors a b page-index]
-  #_(prn "lights " errors a b)
   (as->
     (reduce (fn [[posl hls-left posr hls-right] error]
               (let [[{[ls le] :position :as hl-l} {[rs re] :position :as hl-r}]
-                     (build-highlight error a b page-index)
-                   #_#_ _ (prn "bhlths " ls le rs re error a b)]
+                     (build-highlight error a b page-index)]
                 [le (conj hls-left (.substring a posl ls) hl-l)
                  re (conj hls-right (.substring b posr rs) hl-r)])) [0 [] 0 []] errors) x
      (let [[le hls re hlr] x]
        [(conj hls (.substring a le (count a))) (conj hlr (.substring b re (count b)))])))
-
-
-
-(defn fill-highlights [r]
-  (let [errors (map #(reader/read-string (d/html (d/by-id (str "errors-" %)))) r)
-        hl (map (fn [errors]
-                  (for [e errors]
-                    (highlight e))) errors)]
-    (reset! highlights-left (map (fn [hl] (distinct (map first hl))) hl))
-    (reset! highlights-right (map (fn [hl] (distinct (map second hl))) hl))))
-
-(defn show-highlights [r]
-  (dotimes [i (count r)]
-    (d/set-html! (d/by-id (str "left-" i)) (highlight-text (nth @text-left i)
-                                                           (nth @highlights-left i)))
-    (d/set-html! (d/by-id (str "right-" i)) (highlight-text (nth @text-right i)
-                                                            (nth @highlights-right i)))))
-
-
-(defn fill-table [r]
-  (dotimes [i (count r)]
-    (let [errors (reader/read-string (d/html (d/by-id (str "errors-" i))))
-          kinds (group-by first errors)
-          rows (for [[code positions] (sort-by (comp #(reduce + %) first) kinds)]
-                 (str "<tr>"
-                      "<td>" code "</td>"
-                      "<td>" (count positions) "</td>"
-                      "<td>" positions "</td>"
-                      "<td>" (-> [code (first positions)]
-                                 highlight
-                                 first
-                                 (nth 2))
-                      "</tr>"))
-          table (d/html (d/by-id (str "table-" i)))]
-      (d/set-html! (d/by-id (str "table-" i))
-                   (str (.substring table 0 (- (count table) 8))
-                        (apply str rows))))))
-
-(defn visualize-errors []
-  (let [i (range (count (d/by-class "wrap")))]
-    (save-texts i)
-    (fill-highlights i)
-    (show-highlights i)
-    (fill-table i)))
-
-(defn compute-highlights [left right error-codes]
-  (let [highlights (map light error-codes)
-        left-hl (map first highlights)
-        right-hl (map second highlights)]))
-
 
 (def app-state (atom {:pages []
                       :available-pages []
