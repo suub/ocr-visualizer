@@ -351,6 +351,8 @@
          (apply dom/div #js {:className "right" :id (str "right-" i)}
                     (om/build-all highlight-view hr)))))))
 
+
+
 (defn pages-view [pages owner]
   (reify
     om/IRender
@@ -368,8 +370,7 @@
     (swap! app-state update-in [:pages] #(remove (comp #{page} :name) %))
     (GET (str "/get-site/" i "?bd=" (:base-directory  @app-state))
          {:handler (fn [data]
-                     (swap! app-state update-in [:pages] #(concat % [(assoc data :name page)])))})
-  ))
+                     (swap! app-state update-in [:pages] #(sort-by :name (concat % [(assoc data :name page)]))))})))
 
 (defn page-list-view [available-pages owner]
   (reify
