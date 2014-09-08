@@ -329,11 +329,12 @@
                    (dom/td nil (str (count codes))))))))))))
 
 
-(defn page-summary-view [[{:keys [error-codes left right]} i] owner]
+(defn page-summary-view [[{:keys [error-codes left right name]} i] owner]
   (reify
     om/IRender
     (render [this]
-       (dom/div #js {:className "summary-div"}
+      (dom/div #js {:className "summary-div"}
+               (dom/p nil name)
                (om/build table-view [error-codes left right i])))))
 
 
@@ -417,6 +418,7 @@
                                                       (d/value bd-input))
                                                (get-page-list app-state)))}))
         (dom/div nil
+                 (dom/h3 nil (str (:base-directory app)))
                  (dom/div nil "Lade Seiten: ")
                  (om/build page-list-view (:available-pages app)))))))
 (defn init []
