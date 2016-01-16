@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ocr-visualizer
 
 A website written with Enfocus in ClojureScript.
@@ -12,12 +11,6 @@ lein ring server
 
 ## License
 
-Copyright (C) 2012 FIXME
+Copyright (C) 2013-2016 Staats- und Universitätsbibliothek Bremen
 
-Distributed under the Eclipse Public License, the same as Clojure.
-
-
-=======
-ocr-visualizer
-==============
->>>>>>> 650d005d60df3ff164eaf8cf04e36a2c8f15cce5
+Distributed under the MIT License.
